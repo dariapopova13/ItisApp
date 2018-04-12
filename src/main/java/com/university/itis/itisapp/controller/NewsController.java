@@ -24,20 +24,18 @@ public class NewsController {
         return newsService.getNewsByYearAndCourses(year, courseIds);
     }
 
-    @GetMapping(value = "/week/{year}/{group}")
+    @GetMapping(value = "/week/{group}")
     public Map<String, SingleDayResponse> getMonthNews(@RequestParam(name = "course", required = false) List<Long> courseIds,
                                                        @RequestParam(name = "date", required = false) String date,
-                                                       @PathVariable int year,
                                                        @PathVariable String group) {
-        return newsService.getMonthNews(date, year, group, courseIds);
+        return newsService.getMonthNews(date, group, courseIds);
     }
 
-    @GetMapping(value = "/month/{year}/{group}")
+    @GetMapping(value = "/month/{group}")
     public Map<String, SingleDayResponse> getWeekNews(@RequestParam(name = "course", required = false) List<Long> courseIds,
                                                       @RequestParam(name = "date", required = false) String date,
-                                                      @PathVariable int year,
                                                       @PathVariable String group) {
-        return newsService.getMonthNews(date, year, group, courseIds);
+        return newsService.getMonthNews(date, group, courseIds);
     }
 
 

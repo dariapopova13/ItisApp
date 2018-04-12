@@ -12,5 +12,5 @@ public interface NewsService extends BaseService<NewsDto> {
 
     public List<NewsDto> getNewsByYearAndCourses(int year, List<Long> courseIds);
 
-    Map<String, SingleDayResponse> getMonthNews(String date, int year, String group, List<Long> courseIds);
+    Map<String, SingleDayResponse> getMonthNews(String date, String group, List<Long> courseIds);
 }

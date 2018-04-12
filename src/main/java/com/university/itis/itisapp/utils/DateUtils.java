@@ -83,7 +83,7 @@ public class DateUtils {
     public int getWeekday(Date date) {
         Calendar c = Calendar.getInstance();
         c.setTime(date);
-        return c.get(Calendar.DAY_OF_WEEK);
+        return c.get(Calendar.DAY_OF_WEEK) - 1;
     }
 
     public LocalDate toLocalDate(Date date) {

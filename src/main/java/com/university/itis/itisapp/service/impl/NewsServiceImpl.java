@@ -4,14 +4,11 @@ import com.university.itis.itisapp.dto.NewsDto;
 import com.university.itis.itisapp.dto.SingleDayResponse;
 import com.university.itis.itisapp.dto.TimetableDto;
 import com.university.itis.itisapp.model.News;
-import com.university.itis.itisapp.model.Role;
-import com.university.itis.itisapp.model.Timetable;
-import com.university.itis.itisapp.model.User;
-import com.university.itis.itisapp.model.enums.RoleNames;
 import com.university.itis.itisapp.repository.NewsRepository;
-import com.university.itis.itisapp.repository.TimetabelRepository;
 import com.university.itis.itisapp.service.NewsService;
+import com.university.itis.itisapp.service.TimetableService;
 import com.university.itis.itisapp.service.UserService;
+import com.university.itis.itisapp.utils.AppUtils;
 import com.university.itis.itisapp.utils.DateUtils;
 import com.university.itis.itisapp.utils.DtoUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,9 +27,11 @@ public class NewsServiceImpl implements NewsService {
     @Autowired
     private DateUtils dateUtils;
     @Autowired
-    private TimetabelRepository timetabelRepository;
-    @Autowired
     private DtoUtils dtoUtils;
+    @Autowired
+    private TimetableService timetableService;
+    @Autowired
+    private AppUtils appUtils;
 
     @Override
     public List<NewsDto> getNewsByYearAndCourses(int year, List<Long> courseIds) {
@@ -44,8 +43,9 @@ public class NewsServiceImpl implements NewsService {
     }
 
     @Override
-    public Map<String, SingleDayResponse> getMonthNews(String date, int year,
-                                                       String group, List<Long> courseIds) {
+    public Map<String, SingleDayResponse> getMonthNews(String date, String group, List<Long> courseIds) {
+        int year = appUtils.getCourse(group);
+        Map<Integer, Map<String, TimetableDto>> timetable = timetableService.getTimetableRespone(group);
 
         Pair<Date, Date> dates = dateUtils.getDateMonthRange(date);
         List<News> newsList = newsRepository.getNews(dates.getFirst(), dates.getSecond(), courseIds, year);
@@ -60,35 +60,20 @@ public class NewsServiceImpl implements NewsService {
             }
         }
 
-
-        List<Timetable> timetableList = timetabelRepository.findByGroup(group);
-        Map<Integer, List<Timetable>> timetableMap = new TreeMap<>();
-        for (Timetable timetable : timetableList) {
-            if (timetableMap.get(timetable.getWeekdayNum()) == null) {
-                List<Timetable> list = new ArrayList<>();
-                list.add(timetable);
-                timetableMap.put(timetable.getWeekdayNum(), list);
-            } else {
-                timetableMap.get(timetable.getWeekdayNum()).add(timetable);
-            }
-        }
-
-
         Map<String, SingleDayResponse> responseMap = new TreeMap<>();
         SingleDayResponse singleDayResponse;
         for (LocalDate localDate = dateUtils.toLocalDate(dates.getFirst());
              localDate.isBefore(dateUtils.toLocalDate(dates.getSecond()).plusDays(1));
              localDate = localDate.plusDays(1)) {
             Date currentDate = dateUtils.toDate(localDate);
-            singleDayResponse = new SingleDayResponse();
-            singleDayResponse.setDate(dateUtils.getFormatedDate(currentDate));
-            List<Timetable> timetable = timetableMap.get(dateUtils.getWeekday(currentDate));
-            if (timetable != null)
-                singleDayResponse.setTimetables(timetable.stream()
-                        .map(TimetableDto::new)
-                        .sorted((t1, t2) -> t1.getTime().compareTo(t2.getTime()))
-                        .collect(Collectors.toList()));
+            int weekday = dateUtils.getWeekday(currentDate);
+            if (weekday == 0) continue;
 
+            singleDayResponse = new SingleDayResponse();
+            singleDayResponse.setWeekday(weekday);
+            singleDayResponse.setDate(dateUtils.getFormatedDate(currentDate));
+            if (timetable != null)
+                singleDayResponse.setTimetables(timetable.get(weekday));
             List<News> news = newsMap.get(dateUtils.getFormatedDate(currentDate));
             if (news != null) {
                 singleDayResponse.setNews(news.stream().map(NewsDto::new).collect(Collectors.toList()));
