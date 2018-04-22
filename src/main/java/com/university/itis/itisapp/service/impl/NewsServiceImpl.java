@@ -12,14 +12,19 @@ import com.university.itis.itisapp.utils.AppUtils;
 import com.university.itis.itisapp.utils.DateUtils;
 import com.university.itis.itisapp.utils.DtoUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Service;
-
 import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
+@PropertySource("classpath:application.properties")
 public class NewsServiceImpl implements NewsService {
 
     @Autowired
@@ -32,6 +37,8 @@ public class NewsServiceImpl implements NewsService {
     private TimetableService timetableService;
     @Autowired
     private AppUtils appUtils;
+    @Value("${default_page_count}")
+    private int pageCount;
 
     @Override
     public List<NewsDto> getNewsByYearAndCourses(int year, List<Long> courseIds) {
@@ -40,6 +47,14 @@ public class NewsServiceImpl implements NewsService {
         }
         return newsRepository.findAllByCourseIdInOrYearOrderByDeadlineAsc(courseIds, year)
                 .stream().map(NewsDto::new).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<NewsDto> getDeanNews(int page) {
+        Pageable request = new PageRequest(page, pageCount);
+        Page<News> news = newsRepository.findByYearNotNullOrderByDeadlineAsc(request);
+
+        return news.map(NewsDto::new).getContent();
     }
 
     @Override

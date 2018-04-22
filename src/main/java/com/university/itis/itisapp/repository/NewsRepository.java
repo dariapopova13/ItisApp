@@ -1,6 +1,8 @@
 package com.university.itis.itisapp.repository;
 
 import com.university.itis.itisapp.model.News;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -21,4 +23,7 @@ public interface NewsRepository extends JpaRepository<News, Long> {
     List<News> findAllByCourse_IdIn(List<Long> ids);
 
     List<News> findAllByYear(Integer year);
+
+    Page<News> findByYearNotNullOrderByDeadlineAsc(Pageable pageable);
+
 }

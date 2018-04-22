@@ -18,12 +18,6 @@ public class NewsController {
     @Autowired
     private NewsService newsService;
 
-    @GetMapping(value = "/{year}")
-    public List<NewsDto> getNews(@RequestParam(name = "course", required = false) List<Long> courseIds,
-                                 @PathVariable int year) {
-        return newsService.getNewsByYearAndCourses(year, courseIds);
-    }
-
     @GetMapping(value = "/week/{group}")
     public Map<String, SingleDayResponse> getMonthNews(@RequestParam(name = "course", required = false) List<Long> courseIds,
                                                        @RequestParam(name = "date", required = false) String date,
@@ -51,4 +45,10 @@ public class NewsController {
         newsService.delete(id);
     }
 
+
+    @GetMapping("/dean/{page}")
+    @PreAuthorize("isAuthenticated()")
+    public List<NewsDto> getDeanNews(@PathVariable int page){
+        return newsService.getDeanNews(page);
+    }
 }

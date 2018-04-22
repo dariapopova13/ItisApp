@@ -9,5 +9,5 @@ public interface DeanRepository extends JpaRepository<Dean, Long> {
 
     Dean findByUserId(Long id);
 
-    Dean findByUserCredentialUsername(String username);
+    Dean findByUserUsername(String username);
 }

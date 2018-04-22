@@ -10,12 +10,16 @@
 
 
     <properties>
-        <spring-version>5.0.4.RELEASE</spring-version>
-        <hibernate-version>5.2.13.Final</hibernate-version>
-
+        <spring-version>5.0.2.RELEASE</spring-version>
         <spring-security-version>5.0.3.RELEASE</spring-security-version>
+        <spring-data-version>1.10.6.RELEASE</spring-data-version>
+        <hibernate-version>5.2.10.Final</hibernate-version>
+        <hibernate-search-version>5.8.2.Final</hibernate-search-version>
+
+
         <jackson-version>2.9.4</jackson-version>
         <firebase-version>5.9.0</firebase-version>
+        <lucene-version>5.5.4</lucene-version>
     </properties>
 
     <build>
@@ -35,11 +39,18 @@
 
     <dependencies>
 
+        <!--JWT-->
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt</artifactId>
+            <version>0.9.0</version>
+        </dependency>
+
+
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>javax.servlet-api</artifactId>
             <version>3.1.0</version>
-            <scope>provided</scope>
         </dependency>
 
         <dependency>
@@ -62,13 +73,6 @@
             <version>1.1.0.Final</version>
         </dependency>
 
-
-        <!--Hibernate-->
-        <!--<dependency>-->
-        <!--<groupId>org.hibernate</groupId>-->
-        <!--<artifactId>hibernate-validator</artifactId>-->
-        <!--<version>${hibernate-version}</version>-->
-        <!--</dependency>-->
 
         <dependency>
             <groupId>org.hibernate</groupId>
@@ -147,7 +151,7 @@
         <dependency>
             <groupId>org.springframework.data</groupId>
             <artifactId>spring-data-jpa</artifactId>
-            <version>1.10.4.RELEASE</version>
+            <version>1.10.6.RELEASE</version>
         </dependency>
 
         <dependency>
@@ -208,6 +212,13 @@
             <artifactId>jstl</artifactId>
             <version>1.2</version>
         </dependency>
+
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-search-orm</artifactId>
+            <version>${hibernate-search-version}</version>
+        </dependency>
+
 
     </dependencies>
 

@@ -1,8 +1,16 @@
 package com.university.itis.itisapp.model;
 
 import com.university.itis.itisapp.model.common.AbstractEntity;
+import org.apache.lucene.analysis.core.LowerCaseFilterFactory;
+import org.apache.lucene.analysis.core.WhitespaceTokenizerFactory;
+import org.apache.lucene.analysis.ngram.EdgeNGramFilterFactory;
+import org.apache.lucene.analysis.snowball.SnowballPorterFilterFactory;
+import org.apache.lucene.analysis.standard.StandardTokenizerFactory;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
+import org.hibernate.search.annotations.*;
+import org.hibernate.search.annotations.Index;
+import org.hibernate.search.annotations.Parameter;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -12,14 +20,21 @@ import java.util.Set;
 @DynamicUpdate
 @Entity
 @Table(name = "course")
+@Indexed
 public class Course extends AbstractEntity {
 
     @Column(name = "name")
+    @Field(index = Index.YES, store = Store.YES, analyze = Analyze.YES,
+            analyzer = @Analyzer(definition = "customanalyzer"))
     private String name;
     @ManyToOne
     private Professor professor;
-    @OneToMany(mappedBy = "course",fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "course")
     private Set<News> courseNews = new HashSet<>();
+    @Column(name = "info")
+    @Field(index = Index.YES, store = Store.YES, analyze = Analyze.YES,
+            analyzer = @Analyzer(definition = "customanalyzer"))
+    private String info;
 
     public Set<News> getCourseNews() {
         return courseNews;
@@ -28,9 +43,6 @@ public class Course extends AbstractEntity {
     public void setCourseNews(Set<News> courseNews) {
         this.courseNews = courseNews;
     }
-
-    @Column(name = "info")
-    private String info;
 
     public String getInfo() {
         return info;

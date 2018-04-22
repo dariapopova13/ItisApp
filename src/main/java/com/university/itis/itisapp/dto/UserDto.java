@@ -1,7 +1,6 @@
 package com.university.itis.itisapp.dto;
 
 import com.university.itis.itisapp.dto.common.AbstractDto;
-import com.university.itis.itisapp.model.Credential;
 import com.university.itis.itisapp.model.User;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
@@ -10,14 +9,25 @@ public class UserDto extends AbstractDto {
 
     private String name;
     private String surname;
+    private String username;
 
     public UserDto(User user){
         super(user);
-
+        this.name = user.getName();
+        this.surname = user.getSurname();
+        this.username = user.getSurname();
     }
 
     public UserDto(){
 
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getName() {

@@ -1,13 +1,7 @@
 package com.university.itis.itisapp.utils;
 
-import com.university.itis.itisapp.dto.CourseDto;
-import com.university.itis.itisapp.dto.NewsDto;
-import com.university.itis.itisapp.dto.ProfessorDto;
-import com.university.itis.itisapp.dto.UserDto;
-import com.university.itis.itisapp.model.Course;
-import com.university.itis.itisapp.model.News;
-import com.university.itis.itisapp.model.Professor;
-import com.university.itis.itisapp.model.User;
+import com.university.itis.itisapp.dto.*;
+import com.university.itis.itisapp.model.*;
 import com.university.itis.itisapp.repository.CourseRepository;
 import com.university.itis.itisapp.repository.NewsRepository;
 import com.university.itis.itisapp.repository.ProfessorRepository;
@@ -81,4 +75,20 @@ public class DtoUtils {
         return news;
     }
 
+//    public Credential toEntity(UserFormDto dto){
+//        Credential credential = new Credential();
+//
+//
+//
+//    }
+
+    public User toEntity(UserFormDto dto) {
+        User user;
+        if (dto.getId()!=null){
+            user = userRepository.findOne(dto.getId());
+        }else user = new User();
+//        user.setCredential(toEntity(dto));
+
+        return null;
+    }
 }
