@@ -1,9 +1,11 @@
 package com.university.itis.itisapp.service.impl;
 
 import com.university.itis.itisapp.dto.UserFormDto;
-import com.university.itis.itisapp.model.Token;
-import com.university.itis.itisapp.model.User;
+import com.university.itis.itisapp.model.*;
 import com.university.itis.itisapp.model.builder.TokenBuilder;
+import com.university.itis.itisapp.model.common.AbstractEntity;
+import com.university.itis.itisapp.model.enums.RoleNames;
+import com.university.itis.itisapp.repository.ProfessorRepository;
 import com.university.itis.itisapp.repository.TokenRepository;
 import com.university.itis.itisapp.repository.UserRepository;
 import com.university.itis.itisapp.service.UserService;
@@ -37,6 +39,8 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     private TokenAuthenticationService tokenService;
     @Autowired
     private DtoUtils dtoUtils;
+    @Autowired
+    private ProfessorRepository professorRepository;
 
     @Override
     public User get(Long id) {
@@ -84,14 +88,6 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     public Boolean ping(Token token) {
         return tokenRepository.findByUsernameAndTokenAndEndDateIsNull(token.getUsername(), token.getToken()) != null;
     }
-//
-//    @Override
-//    public UserFormDto signUp(UserFormDto userFormDto) {
-//        if (loadUserByUsername(userFormDto.getUsername()) != null) {
-//        }
-//        return new UserFormDto(saveOrUdpate(dtoUtils.toEntity(userFormDto)));
-//    }
-
 
     @Override
     public UserFormDto authenticate(UserFormDto userFormDto) {
@@ -110,5 +106,44 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         return userFormDto;
     }
 
+    @Override
+    public boolean checkNews(News news) {
+        User current = getCurrentUser();
+        if (current != null) {
+            if (news.getCourse() != null && current.getRole()
+                    .getSimpleName().equals(RoleNames.PROFESSOR.name())) {
+                Professor professor = professorRepository.findByUserUsername(current.getUsername());
+                if (professor != null) {
+                    return professor.getCourses()
+                            .stream().map(AbstractEntity::getId)
+                            .collect(Collectors.toSet())
+                            .contains(news.getCourse().getId());
+                }
 
+            } else if (news.getYear() != null && current.getRole()
+                    .getSimpleName().equals(RoleNames.DEAN.name())) {
+                return true;
+            } else return current.getRole().getSimpleName().equals(RoleNames.ADMIN.name());
+        }
+        return false;
+    }
+
+    @Override
+    public boolean checkCourse(Course course) {
+        User current = getCurrentUser();
+        if (current != null) {
+            if (course != null && current.getRole()
+                    .getSimpleName().equals(RoleNames.PROFESSOR.name())) {
+                Professor professor = professorRepository.findByUserUsername(current.getUsername());
+                if (professor != null) {
+                    return professor.getCourses()
+                            .stream().map(AbstractEntity::getId)
+                            .collect(Collectors.toSet())
+                            .contains(course.getId());
+                }
+
+            }else return current.getRole().getSimpleName().equals(RoleNames.ADMIN.name());
+        }
+        return false;
+    }
 }

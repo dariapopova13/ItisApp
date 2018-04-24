@@ -40,15 +40,17 @@ public class NewsController {
     }
 
     @PreAuthorize("isAuthenticated()")
-    @PostMapping(value = "/delete/{id}")
+    @GetMapping(value = "/delete/{id}")
     public void deleteNews(@PathVariable Long id) {
         newsService.delete(id);
     }
 
 
-    @GetMapping("/dean/{page}")
+    @GetMapping(value = "/{page}")
     @PreAuthorize("isAuthenticated()")
-    public List<NewsDto> getDeanNews(@PathVariable int page){
-        return newsService.getDeanNews(page);
+    public List<NewsDto> getDeanNews(@PathVariable int page) {
+        return newsService.getNews(page);
     }
+
+
 }

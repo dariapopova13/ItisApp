@@ -1,18 +1,13 @@
 package com.university.itis.itisapp.model;
 
 import com.university.itis.itisapp.model.common.AbstractEntity;
-import org.apache.lucene.analysis.core.LowerCaseFilterFactory;
-import org.apache.lucene.analysis.core.WhitespaceTokenizerFactory;
-import org.apache.lucene.analysis.ngram.EdgeNGramFilterFactory;
-import org.apache.lucene.analysis.snowball.SnowballPorterFilterFactory;
-import org.apache.lucene.analysis.standard.StandardTokenizerFactory;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.search.annotations.*;
 import org.hibernate.search.annotations.Index;
-import org.hibernate.search.annotations.Parameter;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -28,20 +23,21 @@ public class Course extends AbstractEntity {
             analyzer = @Analyzer(definition = "customanalyzer"))
     private String name;
     @ManyToOne
+    //@IndexedEmbedded
     private Professor professor;
-    @OneToMany(mappedBy = "course")
-    private Set<News> courseNews = new HashSet<>();
     @Column(name = "info")
     @Field(index = Index.YES, store = Store.YES, analyze = Analyze.YES,
             analyzer = @Analyzer(definition = "customanalyzer"))
     private String info;
+    @Column(name = "delete_date")
+    private Date deleteDate;
 
-    public Set<News> getCourseNews() {
-        return courseNews;
+    public Date getDeleteDate() {
+        return deleteDate;
     }
 
-    public void setCourseNews(Set<News> courseNews) {
-        this.courseNews = courseNews;
+    public void setDeleteDate(Date deleteDate) {
+        this.deleteDate = deleteDate;
     }
 
     public String getInfo() {

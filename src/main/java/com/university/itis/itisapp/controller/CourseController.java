@@ -4,6 +4,8 @@ import com.university.itis.itisapp.dto.CourseDto;
 import com.university.itis.itisapp.service.CourseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller(value = "/course")
@@ -17,9 +19,8 @@ public class CourseController {
         return courseService.saveOrUdpate(courseDto);
     }
 
-//    @GetMapping(value = "/add")
-//    public String getAddingCoursePage(Model model) {
-//        model.addAttribute("course", new Course());
-//        return "/add_course";
-//    }
+    @GetMapping(value = "/delete/{id}")
+    public void deleteCourse(@PathVariable Long id) {
+        courseService.delete(id);
+    }
 }

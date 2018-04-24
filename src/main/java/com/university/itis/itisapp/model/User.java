@@ -1,11 +1,6 @@
 package com.university.itis.itisapp.model;
 
 import com.university.itis.itisapp.model.common.AbstractEntity;
-import org.apache.lucene.analysis.core.LowerCaseFilterFactory;
-import org.apache.lucene.analysis.core.WhitespaceTokenizerFactory;
-import org.apache.lucene.analysis.ngram.EdgeNGramFilterFactory;
-import org.apache.lucene.analysis.snowball.SnowballPorterFilterFactory;
-import org.apache.lucene.analysis.standard.StandardTokenizerFactory;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.search.annotations.*;
@@ -14,6 +9,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import java.util.Date;
 
 @DynamicInsert
 @DynamicUpdate
@@ -34,13 +30,18 @@ public class User extends AbstractEntity {
     private String username;
     @Column(name = "password")
     private String password;
-    //    @ManyToMany(fetch = FetchType.EAGER)
-//    @JoinTable(name = "users_roles",
-//            joinColumns = @JoinColumn(name = "user_id", foreignKey = @ForeignKey(name = "id")),
-//            inverseJoinColumns = @JoinColumn(name = "role_id", foreignKey = @ForeignKey(name = "id")))
-//    private Set<Role> roles = new HashSet<>();
     @ManyToOne
     private Role role;
+    @Column(name = "delete_date")
+    private Date deleteDate;
+
+    public Date getDeleteDate() {
+        return deleteDate;
+    }
+
+    public void setDeleteDate(Date deleteDate) {
+        this.deleteDate = deleteDate;
+    }
 
     public String getName() {
         return name;

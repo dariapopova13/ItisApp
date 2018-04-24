@@ -4,7 +4,6 @@ import com.university.itis.itisapp.model.common.AbstractEntity;
 import org.apache.lucene.analysis.core.LowerCaseFilterFactory;
 import org.apache.lucene.analysis.core.WhitespaceTokenizerFactory;
 import org.apache.lucene.analysis.ngram.EdgeNGramFilterFactory;
-import org.apache.lucene.analysis.snowball.SnowballPorterFilterFactory;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.search.annotations.*;
@@ -39,9 +38,20 @@ public class News extends AbstractEntity {
             analyzer = @Analyzer(definition = "customanalyzer"))
     private String title;
     @ManyToOne
+    @IndexedEmbedded
     private Course course;
     @Column(name = "year")
     private Integer year;
+    @Column(name = "delete_date")
+    private Date deleteDate;
+
+    public Date getDeleteDate() {
+        return deleteDate;
+    }
+
+    public void setDeleteDate(Date deleteDate) {
+        this.deleteDate = deleteDate;
+    }
 
     public Integer getYear() {
         return year;

@@ -18,6 +18,6 @@ public abstract class AbstractEntity implements BaseEntity<Long> {
 
     @Override
     public void setId(Long id) {
-
+        this.id = id;
     }
 }

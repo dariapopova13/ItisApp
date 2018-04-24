@@ -4,7 +4,11 @@ import com.university.itis.itisapp.dto.NewsDto;
 import com.university.itis.itisapp.dto.SingleDayResponse;
 import com.university.itis.itisapp.dto.TimetableDto;
 import com.university.itis.itisapp.model.News;
+import com.university.itis.itisapp.model.Professor;
+import com.university.itis.itisapp.model.User;
+import com.university.itis.itisapp.model.enums.RoleNames;
 import com.university.itis.itisapp.repository.NewsRepository;
+import com.university.itis.itisapp.repository.ProfessorRepository;
 import com.university.itis.itisapp.service.NewsService;
 import com.university.itis.itisapp.service.TimetableService;
 import com.university.itis.itisapp.service.UserService;
@@ -19,6 +23,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Service;
+
 import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -39,6 +44,10 @@ public class NewsServiceImpl implements NewsService {
     private AppUtils appUtils;
     @Value("${default_page_count}")
     private int pageCount;
+    @Autowired
+    private ProfessorRepository professorRepository;
+    @Autowired
+    private UserService userService;
 
     @Override
     public List<NewsDto> getNewsByYearAndCourses(int year, List<Long> courseIds) {
@@ -50,11 +59,22 @@ public class NewsServiceImpl implements NewsService {
     }
 
     @Override
-    public List<NewsDto> getDeanNews(int page) {
+    public List<NewsDto> getNews(int page) {
+        User current = userService.getCurrentUser();
         Pageable request = new PageRequest(page, pageCount);
-        Page<News> news = newsRepository.findByYearNotNullOrderByDeadlineAsc(request);
+        Page<News> news = null;
+        if (current.getRole().getSimpleName().equals(RoleNames.DEAN.name())) {
+            news = newsRepository.findByYearNotNullOrderByDeadlineAsc(request);
+        } else if (current.getRole().getSimpleName().equals(RoleNames.PROFESSOR.name())) {
+            Professor professor = professorRepository.findByUserUsername(current.getUsername());
+            if (professor != null) {
+                news = newsRepository.findAllByCourseIn(professor.getCourses(), request);
+            }
+        } else if (current.getRole().getSimpleName().equals(RoleNames.ADMIN.name())) {
+            news = newsRepository.findAll(request);
+        }
 
-        return news.map(NewsDto::new).getContent();
+        return news == null ? Collections.EMPTY_LIST : news.map(NewsDto::new).getContent();
     }
 
     @Override
@@ -105,9 +125,6 @@ public class NewsServiceImpl implements NewsService {
         return news == null ? null : new NewsDto(news);
     }
 
-    @Autowired
-    private UserService userService;
-
     @Override
     public NewsDto saveOrUdpate(NewsDto newsDto) {
         News news = dtoUtils.toEntiry(newsDto);
@@ -117,6 +134,10 @@ public class NewsServiceImpl implements NewsService {
 
     @Override
     public void delete(Long id) {
-        newsRepository.delete(id);
+        News news = newsRepository.findOne(id);
+        if (news != null && userService.checkNews(news)) {
+            news.setDeleteDate(new Date());
+            newsRepository.save(news);
+        }
     }
 }
