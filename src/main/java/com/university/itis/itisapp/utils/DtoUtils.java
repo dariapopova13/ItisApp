@@ -38,7 +38,6 @@ public class DtoUtils {
 
         if (dto.getProfessor() != null)
             course.setProfessor(toEntiry(dto.getProfessor()));
-
         return course;
     }
 

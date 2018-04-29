@@ -11,6 +11,7 @@
 
 
     <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <spring-version>5.0.2.RELEASE</spring-version>
         <spring-security-version>5.0.3.RELEASE</spring-security-version>
         <spring-data-version>1.10.6.RELEASE</spring-data-version>
@@ -19,7 +20,7 @@
 
 
         <jackson-version>2.9.4</jackson-version>
-        <firebase-version>5.9.0</firebase-version>
+        <firebase-version>5.11.0</firebase-version>
         <lucene-version>5.5.4</lucene-version>
     </properties>
 
@@ -209,12 +210,7 @@
             <version>${jackson-version}</version>
         </dependency>
 
-        <!--Firebase-->
-        <dependency>
-            <groupId>com.google.firebase</groupId>
-            <artifactId>firebase-admin</artifactId>
-            <version>${firebase-version}</version>
-        </dependency>
+
 
         <!--JSTL-->
         <dependency>
@@ -229,11 +225,15 @@
             <version>${hibernate-search-version}</version>
         </dependency>
 
+
+        <!--Firebase-->
         <dependency>
-            <groupId>org.infinispan</groupId>
-            <artifactId>infinispan-directory-provider</artifactId>
-            <version>9.0.1.Final</version>
+            <groupId>com.google.firebase</groupId>
+            <artifactId>firebase-admin</artifactId>
+            <version>${firebase-version}</version>
         </dependency>
+
+
 
     </dependencies>
 

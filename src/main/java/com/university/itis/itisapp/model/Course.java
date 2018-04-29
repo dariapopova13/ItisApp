@@ -8,8 +8,6 @@ import org.hibernate.search.annotations.Index;
 
 import javax.persistence.*;
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
 
 @DynamicInsert
 @DynamicUpdate
@@ -23,7 +21,7 @@ public class Course extends AbstractEntity {
             analyzer = @Analyzer(definition = "customanalyzer"))
     private String name;
     @ManyToOne
-    //@IndexedEmbedded
+    @IndexedEmbedded
     private Professor professor;
     @Column(name = "info")
     @Field(index = Index.YES, store = Store.YES, analyze = Analyze.YES,

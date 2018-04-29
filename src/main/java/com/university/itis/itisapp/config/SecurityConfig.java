@@ -8,7 +8,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -42,7 +41,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private RestLogoutSuccessHandler restLogoutSuccessHandler;
 
-//    @Bean
+    //    @Bean
 //    public RestUserNameAuthenticationFilter restUserNameAuthenticationFilter() throws Exception {
 //        RestUserNameAuthenticationFilter restUserNameAuthenticationFilter = new RestUserNameAuthenticationFilter();
 //        restUserNameAuthenticationFilter.setAuthenticationManager(authenticationManager());
@@ -77,7 +76,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .httpBasic().authenticationEntryPoint(restAuthenticationEntryPoint).and()
                 .authorizeRequests()
-                .antMatchers(HttpMethod.GET, "/news/week/*", "/news/month/*", "/search/*")
+                .antMatchers(HttpMethod.GET, "/news/week/*", "/news/month/*", "/search/*", "/login")
                 .permitAll()
 
                 .antMatchers(HttpMethod.POST, "/login", "/ping").permitAll()

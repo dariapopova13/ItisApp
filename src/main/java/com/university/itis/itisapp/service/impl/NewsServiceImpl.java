@@ -102,7 +102,7 @@ public class NewsServiceImpl implements NewsService {
              localDate = localDate.plusDays(1)) {
             Date currentDate = dateUtils.toDate(localDate);
             int weekday = dateUtils.getWeekday(currentDate);
-            if (weekday == 0) continue;
+//            if (weekday == 0) continue;
 
             singleDayResponse = new SingleDayResponse();
             singleDayResponse.setWeekday(weekday);

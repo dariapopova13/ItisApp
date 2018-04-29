@@ -18,12 +18,6 @@ public class NewsController {
     @Autowired
     private NewsService newsService;
 
-    @GetMapping(value = "/week/{group}")
-    public Map<String, SingleDayResponse> getMonthNews(@RequestParam(name = "course", required = false) List<Long> courseIds,
-                                                       @RequestParam(name = "date", required = false) String date,
-                                                       @PathVariable String group) {
-        return newsService.getMonthNews(date, group, courseIds);
-    }
 
     @GetMapping(value = "/month/{group}")
     public Map<String, SingleDayResponse> getWeekNews(@RequestParam(name = "course", required = false) List<Long> courseIds,

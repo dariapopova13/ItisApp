@@ -78,9 +78,11 @@ public class HibernateConfiguration {
         properties.put(AvailableSettings.ENABLE_LAZY_LOAD_NO_TRANS, true);
 //
         properties.put("hibernate.search.default.directory_provider", "filesystem");
-        properties.put("hibernate.search.default.indexBase",
-                "/home/ubuntu/.itisApp/lucene/indexes");
+//        properties.put("hibernate.search.default.indexBase",
+//                "/home/ubuntu/.itisApp/lucene/indexes");
 
+        properties.put("hibernate.search.default.indexBase",
+                System.getProperty("user.home")+ "/.itisApp/lucene/indexes");
 
         return properties;
     }
