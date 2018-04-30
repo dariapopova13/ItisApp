@@ -60,20 +60,20 @@ public class NewsServiceImpl implements NewsService {
 
     @Override
     public List<NewsDto> getNews(int page) {
-        User current = userService.getCurrentUser();
+//        User current = userService.getCurrentUser();
         Pageable request = new PageRequest(page, pageCount);
         Page<News> news = null;
-        if (current.getRole().getSimpleName().equals(RoleNames.DEAN.name())) {
-            news = newsRepository.findByYearNotNullOrderByDeadlineAsc(request);
-        } else if (current.getRole().getSimpleName().equals(RoleNames.PROFESSOR.name())) {
-            Professor professor = professorRepository.findByUserUsername(current.getUsername());
-            if (professor != null) {
-                news = newsRepository.findAllByCourseIn(professor.getCourses(), request);
-            }
-        } else if (current.getRole().getSimpleName().equals(RoleNames.ADMIN.name())) {
-            news = newsRepository.findAll(request);
-        }
-
+//        if (current.getRole().getSimpleName().equals(RoleNames.DEAN.name())) {
+//            news = newsRepository.findByYearNotNullOrderByDeadlineAsc(request);
+//        } else if (current.getRole().getSimpleName().equals(RoleNames.PROFESSOR.name())) {
+//            Professor professor = professorRepository.findByUserUsername(current.getUsername());
+//            if (professor != null) {
+//                news = newsRepository.findAllByCourseIn(professor.getCourses(), request);
+//            }
+//        } else if (current.getRole().getSimpleName().equals(RoleNames.ADMIN.name())) {
+//            news = newsRepository.findAll(request);
+//        }
+        news = newsRepository.findAll(request);
         return news == null ? Collections.EMPTY_LIST : news.map(NewsDto::new).getContent();
     }
 

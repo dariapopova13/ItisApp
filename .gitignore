@@ -36,7 +36,5 @@ hs_err_pid*
 Будет удалено pom.xml
 Будет удалено src/
 Будет удалено target/
-/src/main/resources/itisapp-1522147861835-firebase-adminsdk-boglk-f45cb10126.json
-/src/main/resources/firebase.properties
-/src/main/java/com/university/itis/itisapp/firebase/FirebaseController.java
-/firebase/
+/src/main/resources/hibernate.properties
+/startbootstrap-sb-admin-gh-pages/
