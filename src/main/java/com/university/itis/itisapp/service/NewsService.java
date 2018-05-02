@@ -1,6 +1,7 @@
 package com.university.itis.itisapp.service;
 
 import com.university.itis.itisapp.dto.NewsDto;
+import com.university.itis.itisapp.dto.NewsFilterDto;
 import com.university.itis.itisapp.dto.SingleDayResponse;
 import com.university.itis.itisapp.model.News;
 
@@ -15,4 +16,6 @@ public interface NewsService extends BaseService<NewsDto> {
     Map<String, SingleDayResponse> getMonthNews(String date, String group, List<Long> courseIds);
 
     List<NewsDto> getNews(int page);
+
+    List<NewsDto> filter(NewsFilterDto filter);
 }

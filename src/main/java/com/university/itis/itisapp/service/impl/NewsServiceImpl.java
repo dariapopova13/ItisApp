@@ -1,12 +1,11 @@
 package com.university.itis.itisapp.service.impl;
 
+import com.university.itis.itisapp.dao.SearchDao;
 import com.university.itis.itisapp.dto.NewsDto;
+import com.university.itis.itisapp.dto.NewsFilterDto;
 import com.university.itis.itisapp.dto.SingleDayResponse;
 import com.university.itis.itisapp.dto.TimetableDto;
 import com.university.itis.itisapp.model.News;
-import com.university.itis.itisapp.model.Professor;
-import com.university.itis.itisapp.model.User;
-import com.university.itis.itisapp.model.enums.RoleNames;
 import com.university.itis.itisapp.repository.NewsRepository;
 import com.university.itis.itisapp.repository.ProfessorRepository;
 import com.university.itis.itisapp.service.NewsService;
@@ -16,6 +15,7 @@ import com.university.itis.itisapp.utils.AppUtils;
 import com.university.itis.itisapp.utils.DateUtils;
 import com.university.itis.itisapp.utils.DtoUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.data.domain.Page;
@@ -48,6 +48,9 @@ public class NewsServiceImpl implements NewsService {
     private ProfessorRepository professorRepository;
     @Autowired
     private UserService userService;
+    @Autowired
+    @Qualifier(value = "newsSearchDao")
+    private SearchDao<News> newsSearchDao;
 
     @Override
     public List<NewsDto> getNewsByYearAndCourses(int year, List<Long> courseIds) {
@@ -139,5 +142,11 @@ public class NewsServiceImpl implements NewsService {
             news.setDeleteDate(new Date());
             newsRepository.save(news);
         }
+    }
+
+    @Override
+    public List<NewsDto> filter(NewsFilterDto filter) {
+        return newsSearchDao.filter(filter).stream()
+                .map(NewsDto::new).collect(Collectors.toList());
     }
 }

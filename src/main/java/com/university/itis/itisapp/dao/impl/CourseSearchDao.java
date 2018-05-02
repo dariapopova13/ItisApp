@@ -1,6 +1,7 @@
 package com.university.itis.itisapp.dao.impl;
 
 import com.university.itis.itisapp.dao.SearchDao;
+import com.university.itis.itisapp.dto.NewsFilterDto;
 import com.university.itis.itisapp.model.Course;
 import com.university.itis.itisapp.model.News;
 import org.hibernate.search.jpa.FullTextEntityManager;
@@ -19,6 +20,11 @@ public class CourseSearchDao implements SearchDao<Course> {
 
     @PersistenceContext(unitName = "entityManagerFactory")
     private EntityManager entityManager;
+
+    @Override
+    public List<Course> filter(NewsFilterDto filter) {
+        return null;
+    }
 
     @Override
     public List<Course> search(String request) throws InterruptedException {
