@@ -16,6 +16,8 @@ import java.nio.charset.Charset;
 @ComponentScan("com.university.itis.itisapp")
 public class RootConfig {
 
+
+
     @Bean
     public ObjectMapper objectMapper() {
         return new ObjectMapper();

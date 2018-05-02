@@ -1,25 +1,36 @@
 package com.university.itis.itisapp.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.university.itis.itisapp.dto.common.AbstractDto;
 import com.university.itis.itisapp.model.News;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 import java.util.Date;
 
-@JsonIgnoreProperties(ignoreUnknown = true)
-public class NewsDto extends AbstractDto {
+//@JsonIgnoreProperties(ignoreUnknown = true)
+public class NewsDto /*extends AbstractDto */{
 
     private String newsText;
+//    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Date deadline;
     private String title;
     private Integer year;
     private CourseDto course;
 
     public NewsDto() {
+
+    }Long id;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public NewsDto(News news) {
-        super(news);
+//        super(news);
         this.newsText = news.getNewsText();
         this.deadline = news.getDeadline();
         this.title = news.getTitle();

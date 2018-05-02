@@ -26,9 +26,14 @@ public class NewsController {
         return newsService.getMonthNews(date, group, courseIds);
     }
 
+    @GetMapping(value = "/single/{id}")
+    public NewsDto getOne(@PathVariable Long id) {
+        return newsService.get(id);
+    }
 
-    @PreAuthorize("isAuthenticated()")
-    @PostMapping(value = "/add")
+
+//    @PreAuthorize("isAuthenticated()")
+    @PostMapping(value = "/api/add")
     public NewsDto saveNews(NewsDto newsDto) {
         return newsService.saveOrUdpate(newsDto);
     }

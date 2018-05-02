@@ -3,7 +3,7 @@ package com.university.itis.itisapp.dto.common;
 import com.university.itis.itisapp.model.common.AbstractEntity;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
-@JsonIgnoreProperties(ignoreUnknown = true)
+@JsonIgnoreProperties
 public abstract class AbstractDto {
 
     protected Long id;

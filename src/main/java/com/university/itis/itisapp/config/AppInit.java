@@ -27,35 +27,6 @@ public class AppInit extends AbstractAnnotationConfigDispatcherServletInitialize
         };
     }
 
-    @Override
-    public void onStartup(ServletContext servletContext) throws ServletException {
-        FilterRegistration charEncodingFilterReg =
-                servletContext.addFilter("encodingFilter", CharacterEncodingFilter.class);
-        charEncodingFilterReg.setInitParameter("encoding", "UTF-8");
-        charEncodingFilterReg.setInitParameter("forceEncoding", "true");
-        charEncodingFilterReg.addMappingForUrlPatterns(null, false, "/*");
-        super.onStartup(servletContext);
-    }
-
-    protected Filter[] getServletFilters() {
-
-        // if encoding has issues we need to add UTF-8 encoding filter
-
-        CharacterEncodingFilter encodingFilter = new CharacterEncodingFilter();
-
-        encodingFilter.setForceEncoding(true);
-
-        encodingFilter.setEncoding("UTF-8");
-
-        // encoding filter must be the first one
-
-        return new Filter[]{encodingFilter,
-
-                new DelegatingFilterProxy("springSecurityFilterChain"),
-
-                new OpenEntityManagerInViewFilter()};
-
-    }
 
     @Override
     protected String[] getServletMappings() {
