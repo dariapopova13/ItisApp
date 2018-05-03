@@ -10,6 +10,7 @@ import com.university.itis.itisapp.repository.NewsRepository;
 import com.university.itis.itisapp.repository.ProfessorRepository;
 import com.university.itis.itisapp.service.NewsService;
 import com.university.itis.itisapp.service.TimetableService;
+import com.university.itis.itisapp.timetable.api.service.GoogleTimetableService;
 import com.university.itis.itisapp.service.UserService;
 import com.university.itis.itisapp.utils.AppUtils;
 import com.university.itis.itisapp.utils.DateUtils;

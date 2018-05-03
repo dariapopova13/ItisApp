@@ -1,6 +1,7 @@
 package com.university.itis.itisapp.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.university.itis.itisapp.timetable.google.model.ParsedSubject;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class TimetableDto {
@@ -14,6 +15,29 @@ public class TimetableDto {
     private int flow;
     private Boolean isEven;
     private String notation;
+
+    public TimetableDto(ParsedSubject input) {
+        if (!checkNull(input.getSubjectName()))
+            this.subject = input.getSubjectName().trim();
+        if (!checkNull(input.getGroup()))
+            this.group = input.getGroup().trim();
+        if (!checkNull(input.getTeacher()))
+            this.professorName = input.getTeacher().trim();
+        if (!checkNull(input.getTime()))
+            this.time = input.getTime().trim();
+        if (!checkNull(input.getCabinet()))
+            this.classroom = input.getCabinet().trim();
+        if (!checkNull(input.getNotation()))
+            this.notation = input.getNotation().trim();
+
+        this.isEven = input.getOnEvenWeek();
+        this.subjectType = input.getType() == null ? null : input.getType().name();
+        this.flow = input.getFlow();
+    }
+
+    private boolean checkNull(String field) {
+        return field == null;
+    }
 
     public TimetableDto() {
     }

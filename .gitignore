@@ -36,7 +36,7 @@ hs_err_pid*
 Будет удалено pom.xml
 Будет удалено src/
 Будет удалено target/
-/src/main/resources/hibernate.properties
+
 /startbootstrap-sb-admin-gh-pages/
 ### Node template
 # Logs
@@ -101,3 +101,5 @@ typings/
 .next
 Будет удалено firebase/
 Будет удалено src/webapp/vue-frontend/
+
+!/src/main/resources/hibernate.properties
