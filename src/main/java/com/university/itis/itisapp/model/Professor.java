@@ -15,17 +15,17 @@ import java.util.Set;
 @DynamicUpdate
 @Entity
 @Table(name = "professor")
-@Indexed
+//@Indexed
 public class Professor extends AbstractEntity {
 
     @OneToMany(mappedBy = "professor", fetch = FetchType.EAGER)
     private Set<Course> courses = new HashSet<>();
     @OneToOne
-    @IndexedEmbedded
+//    @IndexedEmbedded
     private User user;
     @Column(name = "info")
-    @Field(index = Index.YES, store = Store.YES, analyze = Analyze.YES,
-            analyzer = @Analyzer(definition = "customanalyzer"))
+//    @Field(index = Index.YES, store = Store.YES, analyze = Analyze.YES,
+//            analyzer = @Analyzer(definition = "customanalyzer"))
     private String info;
     @Column(name = "delete_date")
     private Date deleteDate;

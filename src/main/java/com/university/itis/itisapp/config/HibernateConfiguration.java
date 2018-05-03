@@ -93,7 +93,8 @@ public class HibernateConfiguration {
         Properties properties = new Properties();
         properties.put(AvailableSettings.DIALECT, PostgreSQL95Dialect.class);
         properties.put(AvailableSettings.SHOW_SQL, false);
-        properties.put(AvailableSettings.HBM2DDL_AUTO, "create");
+//        properties.put(AvailableSettings.HBM2DDL_AUTO, "create");
+        properties.put(AvailableSettings.HBM2DDL_AUTO, "update");
         properties.put(AvailableSettings.FORMAT_SQL, true);
         properties.put(AvailableSettings.ENABLE_LAZY_LOAD_NO_TRANS, true);
 //
@@ -101,8 +102,8 @@ public class HibernateConfiguration {
 //        properties.put("hibernate.search.default.indexBase",
 //                "/home/ubuntu/.itisApp/lucene/indexes");
 
-        properties.put("hibernate.search.default.indexBase",
-                System.getProperty("user.home")+ "/.itisApp/lucene/indexes");
+//        properties.put("hibernate.search.default.indexBase",
+//                System.getProperty("user.home")+ "/.itisApp/lucene/indexes");
 
         return properties;
     }

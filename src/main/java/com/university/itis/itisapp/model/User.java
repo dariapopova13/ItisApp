@@ -15,16 +15,16 @@ import java.util.Date;
 @DynamicUpdate
 @Entity
 @Table(name = "users")
-@Indexed
+//@Indexed
 public class User extends AbstractEntity {
 
     @Column(name = "name", nullable = false)
-    @Field(index = Index.YES, store = Store.YES, analyze = Analyze.YES,
-            analyzer = @Analyzer(definition = "customanalyzer"))
+//    @Field(index = Index.YES, store = Store.YES, analyze = Analyze.YES,
+//            analyzer = @Analyzer(definition = "customanalyzer"))
     private String name;
     @Column(name = "surname", nullable = false)
-    @Field(index = Index.YES, store = Store.YES, analyze = Analyze.YES,
-            analyzer = @Analyzer(definition = "customanalyzer"))
+//    @Field(index = Index.YES, store = Store.YES, analyze = Analyze.YES,
+//            analyzer = @Analyzer(definition = "customanalyzer"))
     private String surname;
     @Column(name = "username", nullable = false, unique = true)
     private String username;
