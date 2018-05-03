@@ -1,8 +1,7 @@
 package com.university.itis.itisapp.dto.common;
 
 import com.university.itis.itisapp.model.common.AbstractEntity;
-import org.codehaus.jackson.annotate.JsonIgnoreProperties;
-
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @JsonIgnoreProperties
 public abstract class AbstractDto {
 

@@ -3,7 +3,6 @@ package com.university.itis.itisapp.service;
 import com.university.itis.itisapp.dto.NewsDto;
 import com.university.itis.itisapp.dto.NewsFilterDto;
 import com.university.itis.itisapp.dto.SingleDayResponse;
-import com.university.itis.itisapp.model.News;
 
 import java.util.List;
 import java.util.Map;
@@ -17,5 +16,9 @@ public interface NewsService extends BaseService<NewsDto> {
 
     List<NewsDto> getNews(int page);
 
+    List<NewsDto> getDeletedNews(int page);
+
     List<NewsDto> filter(NewsFilterDto filter);
+
+    void restore(Long id);
 }

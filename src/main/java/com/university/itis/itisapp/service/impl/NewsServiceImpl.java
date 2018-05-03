@@ -76,7 +76,26 @@ public class NewsServiceImpl implements NewsService {
 //        } else if (current.getRole().getSimpleName().equals(RoleNames.ADMIN.name())) {
 //            news = newsRepository.findAll(request);
 //        }
-        news = newsRepository.findAll(request);
+        news = newsRepository.getAllByDeleteDateNull(request);
+        return news == null ? Collections.EMPTY_LIST : news.map(NewsDto::new).getContent();
+    }
+
+    @Override
+    public List<NewsDto> getDeletedNews(int page) {
+//        User current = userService.getCurrentUser();
+        Pageable request = new PageRequest(page, pageCount);
+        Page<News> news = null;
+//        if (current.getRole().getSimpleName().equals(RoleNames.DEAN.name())) {
+//            news = newsRepository.findByYearNotNullOrderByDeadlineAsc(request);
+//        } else if (current.getRole().getSimpleName().equals(RoleNames.PROFESSOR.name())) {
+//            Professor professor = professorRepository.findByUserUsername(current.getUsername());
+//            if (professor != null) {
+//                news = newsRepository.findAllByCourseIn(professor.getCourses(), request);
+//            }
+//        } else if (current.getRole().getSimpleName().equals(RoleNames.ADMIN.name())) {
+//            news = newsRepository.findAll(request);
+//        }
+        news = newsRepository.getAllByDeleteDateIsNotNull(request);
         return news == null ? Collections.EMPTY_LIST : news.map(NewsDto::new).getContent();
     }
 
@@ -138,15 +157,24 @@ public class NewsServiceImpl implements NewsService {
     @Override
     public void delete(Long id) {
         News news = newsRepository.findOne(id);
-        if (news != null && userService.checkNews(news)) {
+//        if (news != null && userService.checkNews(news)) {
             news.setDeleteDate(new Date());
             newsRepository.save(news);
-        }
+//        }
     }
 
     @Override
     public List<NewsDto> filter(NewsFilterDto filter) {
         return newsSearchDao.filter(filter).stream()
                 .map(NewsDto::new).collect(Collectors.toList());
+    }
+
+    @Override
+    public void restore(Long id) {
+        News news = newsRepository.findOne(id);
+//        if (news != null && userService.checkNews(news)) {
+        news.setDeleteDate(null);
+        newsRepository.save(news);
+//        }
     }
 }

@@ -6,10 +6,9 @@
     <meta http-equiv=X-UA-Compatible content="IE=edge">
     <meta name=viewport content="width=device-width,initial-scale=1">
     <link rel="shortcut icon" href=/favicon.ico>
-
     <title>vue-frontend</title>
-    <link rel=preload as=script href=/js/vendor.f0285421.js>
-    <link rel=preload as=script href=/js/app.baf06906.js>
+    <link rel=preload as=script href=/js/vendor.b5132ee3.js>
+    <link rel=preload as=script href=/js/app.8add929b.js>
     <link rel=preload as=style href=/css/app.66ca8aae.css>
     <link href=/css/app.66ca8aae.css rel=stylesheet>
 </head>
@@ -46,12 +45,12 @@
         return o.d(n, "a", n), n
     }, o.o = function (r, n) {
         return Object.prototype.hasOwnProperty.call(r, n)
-    }, o.p = "/user", o.oe = function (r) {
+    }, o.p = "/", o.oe = function (r) {
         throw console.error(r), r
     }
 })([]);
 //# sourceMappingURL=/js/manifest.bb41d6d8.js.map</script>
-<script type=text/javascript src=/js/vendor.f0285421.js></script>
-<script type=text/javascript src=/js/app.baf06906.js></script>
+<script type=text/javascript src=/js/vendor.b5132ee3.js></script>
+<script type=text/javascript src=/js/app.8add929b.js></script>
 </body>
 </html>

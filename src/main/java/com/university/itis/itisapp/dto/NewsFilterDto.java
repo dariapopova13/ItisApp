@@ -1,5 +1,6 @@
 package com.university.itis.itisapp.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.util.Date;
@@ -8,8 +9,9 @@ import java.util.List;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class NewsFilterDto {
 
-
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Date fromDate;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Date toDate;
     private String title;
     private String newsText;

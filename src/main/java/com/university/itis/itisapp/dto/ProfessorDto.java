@@ -2,8 +2,7 @@ package com.university.itis.itisapp.dto;
 
 import com.university.itis.itisapp.dto.common.AbstractDto;
 import com.university.itis.itisapp.model.Professor;
-import org.codehaus.jackson.annotate.JsonIgnoreProperties;
-
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.util.List;
 import java.util.stream.Collectors;
 

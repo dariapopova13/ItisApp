@@ -5,8 +5,7 @@ import com.university.itis.itisapp.model.Course;
 import com.university.itis.itisapp.model.Professor;
 import com.university.itis.itisapp.model.common.AbstractEntity;
 import jdk.nashorn.internal.ir.annotations.Ignore;
-import org.codehaus.jackson.annotate.JsonIgnoreProperties;
-
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class CourseDto extends AbstractDto {
 

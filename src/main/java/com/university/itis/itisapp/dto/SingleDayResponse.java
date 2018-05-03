@@ -1,7 +1,6 @@
 package com.university.itis.itisapp.dto;
 
-import org.codehaus.jackson.annotate.JsonIgnoreProperties;
-
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;

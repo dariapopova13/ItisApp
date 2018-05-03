@@ -1,43 +1,44 @@
 package com.university.itis.itisapp.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.university.itis.itisapp.dto.common.AbstractDto;
 import com.university.itis.itisapp.model.News;
-import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 import java.util.Date;
 
-//@JsonIgnoreProperties(ignoreUnknown = true)
-public class NewsDto /*extends AbstractDto */{
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class NewsDto extends AbstractDto {
 
     private String newsText;
-//    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Date deadline;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    private Date deleteDate;
     private String title;
     private Integer year;
     private CourseDto course;
 
-    public NewsDto() {
-
-    }Long id;
-
-    public Long getId() {
-        return id;
+    public Date getDeleteDate() {
+        return deleteDate;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setDeleteDate(Date deleteDate) {
+        this.deleteDate = deleteDate;
     }
 
     public NewsDto(News news) {
-//        super(news);
+        super(news);
         this.newsText = news.getNewsText();
         this.deadline = news.getDeadline();
         this.title = news.getTitle();
         if (news.getCourse() != null) {
-            this.course= new CourseDto(news.getCourse());
+            this.course = new CourseDto(news.getCourse());
         }
         this.year = news.getYear();
+        if (news.getDeleteDate() != null) {
+            this.deleteDate = news.getDeleteDate();
+        }
     }
 
     public Integer getYear() {

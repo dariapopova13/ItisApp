@@ -4,8 +4,7 @@ import com.university.itis.itisapp.dto.common.AbstractDto;
 import com.university.itis.itisapp.model.Dean;
 import com.university.itis.itisapp.model.User;
 import com.university.itis.itisapp.model.common.AbstractEntity;
-import org.codehaus.jackson.annotate.JsonIgnoreProperties;
-
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import javax.sound.sampled.Line;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
