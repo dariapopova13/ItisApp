@@ -61,12 +61,9 @@ public class HibernateConfiguration {
 
     @Bean
     public BasicDataSource dataSource() throws URISyntaxException {
-        URI dbUri = new URI(System.getenv("DATABASE_URL"));
-
-        String username = dbUri.getUserInfo().split(":")[0];
-        String password = dbUri.getUserInfo().split(":")[1];
-        String dbUrl = "jdbc:postgresql://" + dbUri.getHost() + ':'
-                + dbUri.getPort() + dbUri.getPath() + "?sslmode=require";
+        String dbUrl = System.getenv("JDBC_DATABASE_URL");
+        String username = System.getenv("JDBC_DATABASE_USERNAME");
+        String password = System.getenv("JDBC_DATABASE_PASSWORD");
 
         BasicDataSource basicDataSource = new BasicDataSource();
         basicDataSource.setUrl(dbUrl);
@@ -102,8 +99,8 @@ public class HibernateConfiguration {
 //        properties.put("hibernate.search.default.indexBase",
 //                "/home/ubuntu/.itisApp/lucene/indexes");
 
-//        properties.put("hibernate.search.default.indexBase",
-//                System.getProperty("user.home")+ "/.itisApp/lucene/indexes");
+        properties.put("hibernate.search.default.indexBase",
+                System.getProperty("user.home")+ "/.itisApp/lucene/indexes");
 
         return properties;
     }
