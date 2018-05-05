@@ -78,6 +78,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .httpBasic().authenticationEntryPoint(restAuthenticationEntryPoint).and()
                 .authorizeRequests()
+                .antMatchers(HttpMethod.GET, "/").permitAll()
                 .antMatchers(HttpMethod.POST, "/ping","/login").permitAll()
                 .antMatchers("/").authenticated()
                 .antMatchers("*/api/*").authenticated()

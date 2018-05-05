@@ -27,7 +27,6 @@ public class FirebaseInit {
         try {
             FirebaseApp.initializeApp(options);
         } catch (Exception e) {
-            e.printStackTrace();
         }
     }
 }

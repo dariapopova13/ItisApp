@@ -14,17 +14,17 @@ import java.util.Date;
 @DynamicInsert
 @DynamicUpdate
 @Entity
-@Table(name = "users")
-//@Indexed
+@Table(name = "users", schema = "itis_app")
+@Indexed
 public class User extends AbstractEntity {
 
-    @Column(name = "name", nullable = false)
-//    @Field(index = Index.YES, store = Store.YES, analyze = Analyze.YES,
-//            analyzer = @Analyzer(definition = "customanalyzer"))
+    @Column(name = "name")
+    @Field(index = Index.YES, store = Store.YES, analyze = Analyze.YES,
+            analyzer = @Analyzer(definition = "customanalyzer"))
     private String name;
-    @Column(name = "surname", nullable = false)
-//    @Field(index = Index.YES, store = Store.YES, analyze = Analyze.YES,
-//            analyzer = @Analyzer(definition = "customanalyzer"))
+    @Column(name = "surname")
+    @Field(index = Index.YES, store = Store.YES, analyze = Analyze.YES,
+            analyzer = @Analyzer(definition = "customanalyzer"))
     private String surname;
     @Column(name = "username", nullable = false, unique = true)
     private String username;

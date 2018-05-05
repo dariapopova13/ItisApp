@@ -17,28 +17,28 @@ import java.util.Date;
 @DynamicInsert
 @DynamicUpdate
 @Entity
-@Table(name = "news")
-//@Indexed
-//@AnalyzerDef(name = "customanalyzer", tokenizer = @TokenizerDef(factory = WhitespaceTokenizerFactory.class), filters = {
-//        @TokenFilterDef(factory = LowerCaseFilterFactory.class),
-//        @TokenFilterDef(factory = EdgeNGramFilterFactory.class, params =
-//                {@Parameter(name = "maxGramSize", value = "15")})
-//
-//})
+@Table(name = "news", schema = "itis_app")
+@Indexed
+@AnalyzerDef(name = "customanalyzer", tokenizer = @TokenizerDef(factory = WhitespaceTokenizerFactory.class), filters = {
+        @TokenFilterDef(factory = LowerCaseFilterFactory.class),
+        @TokenFilterDef(factory = EdgeNGramFilterFactory.class, params =
+                {@Parameter(name = "maxGramSize", value = "15")})
+
+})
 public class News extends AbstractEntity {
 
     @Column(name = "news_text")
-//    @Field(index = Index.YES, store = Store.YES, analyze = Analyze.YES,
-//            analyzer = @Analyzer(definition = "customanalyzer"))
+    @Field(index = Index.YES, store = Store.YES, analyze = Analyze.YES,
+            analyzer = @Analyzer(definition = "customanalyzer"))
     private String newsText;
     @Column(name = "deadline")
     private Date deadline;
     @Column(name = "news_title")
-//    @Field(index = Index.YES, store = Store.YES, analyze = Analyze.YES,
-//            analyzer = @Analyzer(definition = "customanalyzer"))
+    @Field(index = Index.YES, store = Store.YES, analyze = Analyze.YES,
+            analyzer = @Analyzer(definition = "customanalyzer"))
     private String title;
     @ManyToOne
-//    @IndexedEmbedded
+    @IndexedEmbedded
     private Course course;
     @Column(name = "year")
     private Integer year;

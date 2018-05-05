@@ -1,7 +1,6 @@
 package com.university.itis.itisapp.config;
 
 
-import org.apache.commons.dbcp.BasicDataSource;
 import org.hibernate.cfg.AvailableSettings;
 import org.hibernate.dialect.PostgreSQL95Dialect;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,8 +21,6 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.Properties;
 
 @Configuration
@@ -37,7 +34,7 @@ public class HibernateConfiguration {
     private Environment environment;
 
     @Bean
-    public LocalContainerEntityManagerFactoryBean entityManagerFactory() throws URISyntaxException {
+    public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
         LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
         em.setDataSource(dataSource());
         em.setPackagesToScan("com.university.itis.itisapp.model");
@@ -49,29 +46,30 @@ public class HibernateConfiguration {
         return em;
     }
 
-//    @Bean
-//    public DataSource dataSource() {
-//        DriverManagerDataSource dataSource = new DriverManagerDataSource();
-//        dataSource.setDriverClassName(environment.getRequiredProperty("jdbc.driverClassName"));
-//        dataSource.setUrl(environment.getRequiredProperty("jdbc.url"));
-//        dataSource.setUsername(environment.getRequiredProperty("jdbc.username"));
-//        dataSource.setPassword(environment.getRequiredProperty("jdbc.password"));
-//        return dataSource;
-//    }
 
     @Bean
-    public BasicDataSource dataSource() throws URISyntaxException {
-        String dbUrl = System.getenv("DATABASE_URL");
-        String username = System.getenv("JDBC_DATABASE_USERNAME");
-        String password = System.getenv("JDBC_DATABASE_PASSWORD");
-
-        BasicDataSource basicDataSource = new BasicDataSource();
-        basicDataSource.setUrl(dbUrl);
-        basicDataSource.setUsername(username);
-        basicDataSource.setPassword(password);
-
-        return basicDataSource;
+    public DataSource dataSource() {
+        DriverManagerDataSource dataSource = new DriverManagerDataSource();
+        dataSource.setDriverClassName(environment.getRequiredProperty("jdbc.driverClassName"));
+        dataSource.setUrl(environment.getRequiredProperty("jdbc.url"));
+        dataSource.setUsername(environment.getRequiredProperty("jdbc.username"));
+        dataSource.setPassword(environment.getRequiredProperty("jdbc.password"));
+        return dataSource;
     }
+
+//    @Bean
+//    public BasicDataSource dataSource() throws URISyntaxException {
+//        String dbUrl = System.getenv("DATABASE_URL");
+//        String username = System.getenv("JDBC_DATABASE_USERNAME");
+//        String password = System.getenv("JDBC_DATABASE_PASSWORD");
+//
+//        BasicDataSource basicDataSource = new BasicDataSource();
+//        basicDataSource.setUrl(dbUrl);
+//        basicDataSource.setUsername(username);
+//        basicDataSource.setPassword(password);
+//
+//        return basicDataSource;
+//    }
 
     @Bean
     public PlatformTransactionManager transactionManager(EntityManagerFactory emf) {
@@ -90,17 +88,17 @@ public class HibernateConfiguration {
         Properties properties = new Properties();
         properties.put(AvailableSettings.DIALECT, PostgreSQL95Dialect.class);
         properties.put(AvailableSettings.SHOW_SQL, false);
-//        properties.put(AvailableSettings.HBM2DDL_AUTO, "create");
-        properties.put(AvailableSettings.HBM2DDL_AUTO, "update");
+        properties.put(AvailableSettings.DEFAULT_SCHEMA, "itis_app");
+        properties.put(AvailableSettings.HBM2DLL_CREATE_SCHEMAS, true);
+        properties.put(AvailableSettings.HBM2DDL_AUTO, "create");
+//        properties.put(AvailableSettings.HBM2DDL_AUTO, "update");
         properties.put(AvailableSettings.FORMAT_SQL, true);
         properties.put(AvailableSettings.ENABLE_LAZY_LOAD_NO_TRANS, true);
 //
-//        properties.put("hibernate.search.default.directory_provider", "filesystem");
-//        properties.put("hibernate.search.default.indexBase",
-//                "/home/ubuntu/.itisApp/lucene/indexes");
+        properties.put("hibernate.search.default.directory_provider", "filesystem");
 
-        properties.put("hibernate.search.default.indexBase",
-                System.getProperty("user.home")+ "/.itisApp/lucene/indexes");
+        properties.put("hibernate.search.default.indexBase", getClass().getProtectionDomain().getCodeSource().getLocation().getPath()
+                + "/lucene");
 
         return properties;
     }

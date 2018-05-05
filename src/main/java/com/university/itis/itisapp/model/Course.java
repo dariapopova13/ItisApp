@@ -12,20 +12,20 @@ import java.util.Date;
 @DynamicInsert
 @DynamicUpdate
 @Entity
-@Table(name = "course")
-//@Indexed
+@Table(name = "course", schema = "itis_app")
+@Indexed
 public class Course extends AbstractEntity {
 
     @Column(name = "name")
-//    @Field(index = Index.YES, store = Store.YES, analyze = Analyze.YES,
-//            analyzer = @Analyzer(definition = "customanalyzer"))
+    @Field(index = Index.YES, store = Store.YES, analyze = Analyze.YES,
+            analyzer = @Analyzer(definition = "customanalyzer"))
     private String name;
     @ManyToOne
-//    @IndexedEmbedded
+    @IndexedEmbedded
     private Professor professor;
     @Column(name = "info")
-//    @Field(index = Index.YES, store = Store.YES, analyze = Analyze.YES,
-//            analyzer = @Analyzer(definition = "customanalyzer"))
+    @Field(index = Index.YES, store = Store.YES, analyze = Analyze.YES,
+            analyzer = @Analyzer(definition = "customanalyzer"))
     private String info;
     @Column(name = "delete_date")
     private Date deleteDate;

@@ -11,7 +11,7 @@ import java.util.Set;
 @DynamicInsert
 @DynamicUpdate
 @Entity
-@Table(name = "dean")
+@Table(name = "dean", schema = "itis_app")
 public class Dean extends AbstractEntity {
 
     @OneToOne
