@@ -49,32 +49,32 @@ public class HibernateConfiguration {
         return em;
     }
 
-    @Bean
-    public DataSource dataSource() {
-        DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        dataSource.setDriverClassName(environment.getRequiredProperty("jdbc.driverClassName"));
-        dataSource.setUrl(environment.getRequiredProperty("jdbc.url"));
-        dataSource.setUsername(environment.getRequiredProperty("jdbc.username"));
-        dataSource.setPassword(environment.getRequiredProperty("jdbc.password"));
-        return dataSource;
-    }
-
 //    @Bean
-//    public BasicDataSource dataSource() throws URISyntaxException {
-//        URI dbUri = new URI(System.getenv("DATABASE_URL"));
-//
-//        String username = dbUri.getUserInfo().split(":")[0];
-//        String password = dbUri.getUserInfo().split(":")[1];
-//        String dbUrl = "jdbc:postgresql://" + dbUri.getHost() + ':'
-//                + dbUri.getPort() + dbUri.getPath() + "?sslmode=require";
-//
-//        BasicDataSource basicDataSource = new BasicDataSource();
-//        basicDataSource.setUrl(dbUrl);
-//        basicDataSource.setUsername(username);
-//        basicDataSource.setPassword(password);
-//
-//        return basicDataSource;
+//    public DataSource dataSource() {
+//        DriverManagerDataSource dataSource = new DriverManagerDataSource();
+//        dataSource.setDriverClassName(environment.getRequiredProperty("jdbc.driverClassName"));
+//        dataSource.setUrl(environment.getRequiredProperty("jdbc.url"));
+//        dataSource.setUsername(environment.getRequiredProperty("jdbc.username"));
+//        dataSource.setPassword(environment.getRequiredProperty("jdbc.password"));
+//        return dataSource;
 //    }
+
+    @Bean
+    public BasicDataSource dataSource() throws URISyntaxException {
+        URI dbUri = new URI(System.getenv("DATABASE_URL"));
+
+        String username = dbUri.getUserInfo().split(":")[0];
+        String password = dbUri.getUserInfo().split(":")[1];
+        String dbUrl = "jdbc:postgresql://" + dbUri.getHost() + ':'
+                + dbUri.getPort() + dbUri.getPath() + "?sslmode=require";
+
+        BasicDataSource basicDataSource = new BasicDataSource();
+        basicDataSource.setUrl(dbUrl);
+        basicDataSource.setUsername(username);
+        basicDataSource.setPassword(password);
+
+        return basicDataSource;
+    }
 
     @Bean
     public PlatformTransactionManager transactionManager(EntityManagerFactory emf) {
