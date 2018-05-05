@@ -61,7 +61,7 @@ public class HibernateConfiguration {
 
     @Bean
     public BasicDataSource dataSource() throws URISyntaxException {
-        String dbUrl = System.getenv("JDBC_DATABASE_URL");
+        String dbUrl = System.getenv("DATABASE_URL");
         String username = System.getenv("JDBC_DATABASE_USERNAME");
         String password = System.getenv("JDBC_DATABASE_PASSWORD");
 
