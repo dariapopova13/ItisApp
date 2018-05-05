@@ -13,7 +13,7 @@ import java.util.Date;
  */
 @DynamicInsert
 @DynamicUpdate
-@Table(name = "token")
+@Table(name = "token_")
 @Entity
 public class Token extends AbstractEntity {
 

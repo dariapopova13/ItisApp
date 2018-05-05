@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -7,10 +8,10 @@
     <meta name=viewport content="width=device-width,initial-scale=1">
     <link rel="shortcut icon" href=/favicon.ico>
     <title>vue-frontend</title>
-    <link rel=preload as=script href=/js/vendor.b5132ee3.js>
-    <link rel=preload as=script href=/js/app.8add929b.js>
-    <link rel=preload as=style href=/css/app.66ca8aae.css>
-    <link href=/css/app.66ca8aae.css rel=stylesheet>
+    <link rel=preload as=script href=/js/vendor.c7fb8bee.js>
+    <link rel=preload as=script href=/js/app.eebb52b3.js>
+    <link rel=preload as=style href=/css/app.f84c4742.css>
+    <link href=/css/app.f84c4742.css rel=stylesheet>
 </head>
 <body>
 <noscript><strong>We're sorry but vue-frontend doesn't work properly without JavaScript enabled. Please enable it to
@@ -50,7 +51,7 @@
     }
 })([]);
 //# sourceMappingURL=/js/manifest.bb41d6d8.js.map</script>
-<script type=text/javascript src=/js/vendor.b5132ee3.js></script>
-<script type=text/javascript src=/js/app.8add929b.js></script>
+<script type=text/javascript src=/js/vendor.c7fb8bee.js></script>
+<script type=text/javascript src=/js/app.eebb52b3.js></script>
 </body>
 </html>

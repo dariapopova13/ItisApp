@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class CourseServiceImpl implements CourseService {
@@ -26,6 +28,12 @@ public class CourseServiceImpl implements CourseService {
     public CourseDto get(Long id) {
         Course course = courseRepository.findOne(id);
         return course == null ? null : new CourseDto(course);
+    }
+
+    @Override
+    public List<CourseDto> getAll() {
+        return courseRepository.findAll().stream()
+                .map(CourseDto::new).collect(Collectors.toList());
     }
 
     @Override

@@ -14,4 +14,10 @@ public class PageController {
         return "index";
     }
 
+
+    @RequestMapping(value = "/login", method = GET)
+    public String getLogin() {
+        return "login";
+    }
+
 }

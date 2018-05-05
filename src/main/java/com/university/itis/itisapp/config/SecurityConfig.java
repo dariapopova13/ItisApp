@@ -1,11 +1,13 @@
 package com.university.itis.itisapp.config;//package com.todoist.sql.server.config;
 
 import com.google.common.collect.ImmutableList;
+
 import com.university.itis.itisapp.authentication.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -17,10 +19,13 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
+import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
+import javax.annotation.Resource;
 import javax.sql.DataSource;
 
 @Configuration
@@ -46,17 +51,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private RestLogoutSuccessHandler restLogoutSuccessHandler;
 
-//    @Bean
-//    public RestUserNameAuthenticationFilter restUserNameAuthenticationFilter() throws Exception {
-//        RestUserNameAuthenticationFilter restUserNameAuthenticationFilter = new RestUserNameAuthenticationFilter();
-//        restUserNameAuthenticationFilter.setAuthenticationManager(authenticationManager());
-//        restUserNameAuthenticationFilter.setAuthenticationSuccessHandler(restAuthenticationSuccessHandler);
-//        restUserNameAuthenticationFilter.setAuthenticationFailureHandler(restAuthenticationFailureHandler);
-//        restUserNameAuthenticationFilter.setRequiresAuthenticationRequestMatcher(new AntPathRequestMatcher("/login", "POST"));
-//        restUserNameAuthenticationFilter.setUsernameParameter("username");
-//        restUserNameAuthenticationFilter.setPasswordParameter("password");
-//        return restUserNameAuthenticationFilter;
-//    }
+
     @Autowired
     private RestLogoutHandler restLogoutHandler;
 
@@ -83,6 +78,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .httpBasic().authenticationEntryPoint(restAuthenticationEntryPoint).and()
                 .authorizeRequests()
+                .antMatchers(HttpMethod.POST, "/ping","/login").permitAll()
+                .antMatchers("/").authenticated()
+                .antMatchers("*/api/*").authenticated()
                 .anyRequest().permitAll()
 
                 .and().logout().permitAll()
@@ -118,4 +116,5 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public void configureGlobal(AuthenticationManagerBuilder authenticationMgr) throws Exception {
         authenticationMgr.userDetailsService(userService).passwordEncoder(passwordEncoder);
     }
+
 }

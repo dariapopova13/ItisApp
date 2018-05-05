@@ -1,5 +1,6 @@
 package com.university.itis.itisapp.service.impl;
 
+import com.university.itis.itisapp.dto.UserDto;
 import com.university.itis.itisapp.dto.UserFormDto;
 import com.university.itis.itisapp.model.*;
 import com.university.itis.itisapp.model.builder.TokenBuilder;
@@ -22,10 +23,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -43,13 +41,27 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     private ProfessorRepository professorRepository;
 
     @Override
-    public User get(Long id) {
+    public UserDto get(Long id) {
+        User user = userRepository.findOne(id);
+        return user == null ? null : new UserDto(user);
+    }
+
+    @Override
+    public UserDto saveOrUdpate(UserDto dto) {
+        User user = dtoUtils.toEntity(dto);
+        user = userRepository.save(user);
+        return user == null ? null : new UserDto(user);
+    }
+
+    @Override
+    public UserDto saveNewUser(UserDto userDto) {
         return null;
     }
 
     @Override
-    public User saveOrUdpate(User user) {
-        return null;
+    public List<UserDto> getAll() {
+        return userRepository.findAll()
+                .stream().map(UserDto::new).collect(Collectors.toList());
     }
 
     @Override
@@ -142,7 +154,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
                             .contains(course.getId());
                 }
 
-            }else return current.getRole().getSimpleName().equals(RoleNames.ADMIN.name());
+            } else return current.getRole().getSimpleName().equals(RoleNames.ADMIN.name());
         }
         return false;
     }
