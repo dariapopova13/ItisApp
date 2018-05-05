@@ -15,9 +15,9 @@ public class PageController {
     }
 
 
-    @RequestMapping(value = "/login", method = GET)
-    public String getLogin() {
-        return "login";
-    }
+//    @RequestMapping(value = "/login", method = GET)
+//    public String getLogin() {
+//        return "login";
+//    }
 
 }
