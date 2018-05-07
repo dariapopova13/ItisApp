@@ -8,11 +8,10 @@ import com.university.itis.itisapp.model.Course;
 import com.university.itis.itisapp.model.News;
 import com.university.itis.itisapp.model.Professor;
 import com.university.itis.itisapp.model.User;
-import com.university.itis.itisapp.repository.CourseRepository;
-import com.university.itis.itisapp.repository.NewsRepository;
-import com.university.itis.itisapp.repository.ProfessorRepository;
-import com.university.itis.itisapp.repository.UserRepository;
+import com.university.itis.itisapp.model.enums.RoleNames;
+import com.university.itis.itisapp.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -54,6 +53,11 @@ public class DtoUtils {
         return professor;
     }
 
+    @Autowired
+    private RoleRepository roleRepository;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     public User toEntity(UserDto dto) {
         User user;
         if (dto.getId() != null) {
@@ -62,9 +66,14 @@ public class DtoUtils {
 
         user.setName(dto.getName());
         user.setSurname(dto.getSurname());
-
+        user.setEmail(dto.getEmail());
+        if (dto.getPassword() != null)
+            user.setPassword(passwordEncoder.encode(dto.getPassword()));
+        user.setRole(roleRepository.findByName(RoleNames.getRoleName(dto.getRole())));
         return user;
+
     }
+
 
     public News toEntiry(NewsDto dto) {
         News news;

@@ -2,10 +2,11 @@ package com.university.itis.itisapp.dto.common;
 
 import com.university.itis.itisapp.model.common.AbstractEntity;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-@JsonIgnoreProperties
-public abstract class AbstractDto {
 
-    protected Long id;
+@JsonIgnoreProperties(ignoreUnknown = true)
+public  class AbstractDto {
+
+    private Long id;
 
     public AbstractDto(AbstractEntity entity) {
         this.id = entity.getId();

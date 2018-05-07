@@ -9,7 +9,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import java.util.Date;
 
 @DynamicInsert
 @DynamicUpdate
@@ -26,22 +25,21 @@ public class User extends AbstractEntity {
     @Field(index = Index.YES, store = Store.YES, analyze = Analyze.YES,
             analyzer = @Analyzer(definition = "customanalyzer"))
     private String surname;
-    @Column(name = "username", nullable = false, unique = true)
-    private String username;
     @Column(name = "password")
     private String password;
     @ManyToOne
     private Role role;
-    @Column(name = "delete_date")
-    private Date deleteDate;
+    @Column(name = "email", unique = true, nullable = false)
+    private String email;
 
-    public Date getDeleteDate() {
-        return deleteDate;
+    public String getEmail() {
+        return email;
     }
 
-    public void setDeleteDate(Date deleteDate) {
-        this.deleteDate = deleteDate;
+    public void setEmail(String email) {
+        this.email = email;
     }
+
 
     public String getName() {
         return name;
@@ -57,14 +55,6 @@ public class User extends AbstractEntity {
 
     public void setSurname(String surname) {
         this.surname = surname;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
     }
 
     public String getPassword() {

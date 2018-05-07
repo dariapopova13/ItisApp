@@ -20,16 +20,16 @@ public class Token extends AbstractEntity {
     private String token;
     private Date endDate;
     private Date startDate;
-    private String username;
+    private String email;
 
     public Token() {
     }
 
-    public Token(String token, Date endDate, Date startDate, String username) {
+    public Token(String token, Date endDate, Date startDate, String email) {
         this.token = token;
         this.endDate = endDate;
         this.startDate = startDate;
-        this.username = username;
+        this.email = email;
     }
 
     public String getToken() {
@@ -56,11 +56,12 @@ public class Token extends AbstractEntity {
         this.startDate = startDate;
     }
 
-    public String getUsername() {
-        return username;
+
+    public String getEmail() {
+        return email;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setEmail(String email) {
+        this.email = email;
     }
 }

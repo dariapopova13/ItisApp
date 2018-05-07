@@ -16,9 +16,6 @@ public interface NewsService extends BaseService<NewsDto> {
 
     List<NewsDto> getNews(int page);
 
-    List<NewsDto> getDeletedNews(int page);
-
     List<NewsDto> filter(NewsFilterDto filter);
 
-    void restore(Long id);
 }

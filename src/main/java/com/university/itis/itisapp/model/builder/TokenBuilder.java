@@ -1,6 +1,5 @@
 package com.university.itis.itisapp.model.builder;
 
-
 import com.university.itis.itisapp.model.Token;
 
 import java.util.Date;
@@ -10,7 +9,7 @@ public class TokenBuilder {
     private String token;
     private Date endDate;
     private Date startDate;
-    private String username;
+    private String email;
 
     public TokenBuilder setToken(String token) {
         this.token = token;
@@ -27,12 +26,12 @@ public class TokenBuilder {
         return this;
     }
 
-    public TokenBuilder setUsername(String username) {
-        this.username = username;
+    public TokenBuilder setEmail(String email) {
+        this.email = email;
         return this;
     }
 
     public Token createToken() {
-        return new Token(token, endDate, startDate, username);
+        return new Token(token, endDate, startDate, email);
     }
 }

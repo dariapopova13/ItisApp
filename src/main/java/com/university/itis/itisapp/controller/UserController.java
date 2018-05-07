@@ -8,14 +8,14 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-public class AdminController {
+public class UserController {
 
     @Autowired
     private UserService userService;
 
-    @GetMapping(value = "/users/api")
-    public List<UserDto> getUsers() {
-        return userService.getAll();
+    @GetMapping(value = "/users/api{page}")
+    public List<UserDto> getUsers(@PathVariable int page) {
+        return userService.getAll(page);
     }
 
     @GetMapping(value = "/users/api/single/{id}")

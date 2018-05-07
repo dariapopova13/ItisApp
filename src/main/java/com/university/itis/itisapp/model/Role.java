@@ -25,7 +25,9 @@ public class Role extends AbstractEntity {
         this.name = name;
     }
 
-    public String getSimpleName(){
+    public String getSimpleName() {
         return name.name();
     }
+
+
 }

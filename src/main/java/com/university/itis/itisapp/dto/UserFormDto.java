@@ -11,10 +11,20 @@ import java.util.stream.Collectors;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class UserFormDto extends AbstractDto {
 
-    private String username;
+    private String email;
     private String password;
     private String role;
     private String token;
+
+    public UserFormDto() {
+    }
+
+    public UserFormDto(User user) {
+        super(user);
+        this.email = user.getEmail();
+        this.password = user.getPassword();
+        this.role = user.getRole().getSimpleName();
+    }
 
     public String getToken() {
         return token;
@@ -22,16 +32,6 @@ public class UserFormDto extends AbstractDto {
 
     public void setToken(String token) {
         this.token = token;
-    }
-
-    public UserFormDto() {
-    }
-
-    public UserFormDto(User user) {
-        super(user);
-        this.username = user.getUsername();
-        this.password = user.getPassword();
-        this.role = user.getRole().getSimpleName();
     }
 
     public String getRole() {
@@ -42,12 +42,12 @@ public class UserFormDto extends AbstractDto {
         this.role = role;
     }
 
-    public String getUsername() {
-        return username;
+    public String getEmail() {
+        return email;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getPassword() {

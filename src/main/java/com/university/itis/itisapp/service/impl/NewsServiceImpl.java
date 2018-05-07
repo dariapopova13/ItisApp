@@ -1,16 +1,20 @@
 package com.university.itis.itisapp.service.impl;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.university.itis.itisapp.dao.SearchDao;
 import com.university.itis.itisapp.dto.NewsDto;
 import com.university.itis.itisapp.dto.NewsFilterDto;
 import com.university.itis.itisapp.dto.SingleDayResponse;
 import com.university.itis.itisapp.dto.TimetableDto;
+import com.university.itis.itisapp.firebase.FirebaseService;
 import com.university.itis.itisapp.model.News;
+import com.university.itis.itisapp.model.Professor;
+import com.university.itis.itisapp.model.User;
+import com.university.itis.itisapp.model.enums.RoleNames;
 import com.university.itis.itisapp.repository.NewsRepository;
 import com.university.itis.itisapp.repository.ProfessorRepository;
 import com.university.itis.itisapp.service.NewsService;
 import com.university.itis.itisapp.service.TimetableService;
-import com.university.itis.itisapp.timetable.api.service.GoogleTimetableService;
 import com.university.itis.itisapp.service.UserService;
 import com.university.itis.itisapp.utils.AppUtils;
 import com.university.itis.itisapp.utils.DateUtils;
@@ -64,41 +68,22 @@ public class NewsServiceImpl implements NewsService {
 
     @Override
     public List<NewsDto> getNews(int page) {
-//        User current = userService.getCurrentUser();
+        User current = userService.getCurrentUser();
         Pageable request = new PageRequest(page, pageCount);
         Page<News> news = null;
-//        if (current.getRole().getSimpleName().equals(RoleNames.DEAN.name())) {
-//            news = newsRepository.findByYearNotNullOrderByDeadlineAsc(request);
-//        } else if (current.getRole().getSimpleName().equals(RoleNames.PROFESSOR.name())) {
-//            Professor professor = professorRepository.findByUserUsername(current.getUsername());
-//            if (professor != null) {
-//                news = newsRepository.findAllByCourseIn(professor.getCourses(), request);
-//            }
-//        } else if (current.getRole().getSimpleName().equals(RoleNames.ADMIN.name())) {
-//            news = newsRepository.findAll(request);
-//        }
-        news = newsRepository.getAllByDeleteDateNull(request);
+        if (current.getRole().getSimpleName().equals(RoleNames.DEAN.name())) {
+            news = newsRepository.findByYearNotNullOrderByDeadlineAsc(request);
+        } else if (current.getRole().getSimpleName().equals(RoleNames.PROFESSOR.name())) {
+            Professor professor = professorRepository.findByUserEmail(current.getEmail());
+            if (professor != null) {
+                news = newsRepository.findAllByCourseIn(professor.getCourses(), request);
+            }
+        } else if (current.getRole().getSimpleName().equals(RoleNames.ADMIN.name())) {
+            news = newsRepository.findAll(request);
+        }
         return news == null ? Collections.EMPTY_LIST : news.map(NewsDto::new).getContent();
     }
 
-    @Override
-    public List<NewsDto> getDeletedNews(int page) {
-//        User current = userService.getCurrentUser();
-        Pageable request = new PageRequest(page, pageCount);
-        Page<News> news = null;
-//        if (current.getRole().getSimpleName().equals(RoleNames.DEAN.name())) {
-//            news = newsRepository.findByYearNotNullOrderByDeadlineAsc(request);
-//        } else if (current.getRole().getSimpleName().equals(RoleNames.PROFESSOR.name())) {
-//            Professor professor = professorRepository.findByUserUsername(current.getUsername());
-//            if (professor != null) {
-//                news = newsRepository.findAllByCourseIn(professor.getCourses(), request);
-//            }
-//        } else if (current.getRole().getSimpleName().equals(RoleNames.ADMIN.name())) {
-//            news = newsRepository.findAll(request);
-//        }
-        news = newsRepository.getAllByDeleteDateIsNotNull(request);
-        return news == null ? Collections.EMPTY_LIST : news.map(NewsDto::new).getContent();
-    }
 
     @Override
     public Map<String, SingleDayResponse> getMonthNews(String date, String group, List<Long> courseIds) {
@@ -148,20 +133,27 @@ public class NewsServiceImpl implements NewsService {
         return news == null ? null : new NewsDto(news);
     }
 
+    @Autowired
+    private FirebaseService firebaseService;
+
     @Override
     public NewsDto saveOrUdpate(NewsDto newsDto) {
         News news = dtoUtils.toEntiry(newsDto);
         news = newsRepository.save(news);
-        return news == null ? null : new NewsDto(news);
+        if (news == null) return null;
+        try {
+            firebaseService.notifyNews(news);
+        } catch (JsonProcessingException e) {
+        }
+        return new NewsDto(news);
     }
 
     @Override
     public void delete(Long id) {
         News news = newsRepository.findOne(id);
-//        if (news != null && userService.checkNews(news)) {
-            news.setDeleteDate(new Date());
-            newsRepository.save(news);
-//        }
+        if (news != null && userService.checkNews(news)) {
+            newsRepository.delete(news);
+        }
     }
 
     @Override
@@ -170,12 +162,4 @@ public class NewsServiceImpl implements NewsService {
                 .map(NewsDto::new).collect(Collectors.toList());
     }
 
-    @Override
-    public void restore(Long id) {
-        News news = newsRepository.findOne(id);
-//        if (news != null && userService.checkNews(news)) {
-        news.setDeleteDate(null);
-        newsRepository.save(news);
-//        }
-    }
 }

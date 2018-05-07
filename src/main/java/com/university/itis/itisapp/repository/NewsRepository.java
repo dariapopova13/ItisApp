@@ -29,7 +29,4 @@ public interface NewsRepository extends JpaRepository<News, Long> {
 
     Page<News> findByYearNotNullOrderByDeadlineAsc(Pageable pageable);
 
-    Page<News> getAllByDeleteDateNull(Pageable pageable);
-
-    Page<News> getAllByDeleteDateIsNotNull(Pageable pageable);
 }

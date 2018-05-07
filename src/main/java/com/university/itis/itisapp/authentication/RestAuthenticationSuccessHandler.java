@@ -42,13 +42,13 @@ public class RestAuthenticationSuccessHandler implements AuthenticationSuccessHa
         userFormDto.setRole(authentication.getAuthorities()
                 .stream().map(o -> o.getAuthority()).collect(Collectors.toList()).get(0));
         if (authentication.getPrincipal() instanceof UserDetails)
-            userFormDto.setUsername(((UserDetails) authentication.getPrincipal()).getUsername());
-        else userFormDto.setUsername((String) authentication.getPrincipal());
-        Token token = tokenRepository.findByUsernameAndEndDateIsNull(userFormDto.getUsername());
+            userFormDto.setEmail(((UserDetails) authentication.getPrincipal()).getUsername());
+        else userFormDto.setEmail((String) authentication.getPrincipal());
+        Token token = tokenRepository.findByEmailAndEndDateIsNull(userFormDto.getEmail());
         if (token == null) {
             tokenAuthenticationService.addAuthentication(userFormDto);
             token = new TokenBuilder()
-                    .setUsername(userFormDto.getUsername())
+                    .setEmail(userFormDto.getEmail())
                     .setStartDate(new Date())
                     .setToken(userFormDto.getToken())
                     .createToken();

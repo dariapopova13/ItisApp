@@ -38,14 +38,14 @@ public class RestAuthenticationProcessingFilter extends AbstractAuthenticationPr
             throw new AuthenticationServiceException("Authentication method not supported: " + request.getMethod());
         } else {
             UserFormDto userFormDto = objectMapper.readValue(request.getReader(), UserFormDto.class);
-            if (userFormDto == null || userFormDto.getPassword() == null || userFormDto.getUsername() == null)
+            if (userFormDto == null || userFormDto.getPassword() == null || userFormDto.getEmail() == null)
                 throw new AuthenticationCredentialsNotFoundException("Bad credentials");
-            String username = userFormDto.getUsername();
+            String email = userFormDto.getEmail();
             String password = userFormDto.getPassword();
 
-            username = username.trim();
+            email = email.trim();
             UsernamePasswordAuthenticationToken authRequest =
-                    new UsernamePasswordAuthenticationToken(username, password, Collections.emptyList());
+                    new UsernamePasswordAuthenticationToken(email, password, Collections.emptyList());
             return this.getAuthenticationManager().authenticate(authRequest);
         }
     }

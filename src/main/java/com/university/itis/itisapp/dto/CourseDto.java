@@ -1,11 +1,9 @@
 package com.university.itis.itisapp.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.university.itis.itisapp.dto.common.AbstractDto;
 import com.university.itis.itisapp.model.Course;
-import com.university.itis.itisapp.model.Professor;
-import com.university.itis.itisapp.model.common.AbstractEntity;
-import jdk.nashorn.internal.ir.annotations.Ignore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class CourseDto extends AbstractDto {
 
@@ -17,7 +15,8 @@ public class CourseDto extends AbstractDto {
         super(course);
         this.name = course.getName();
         this.info = course.getInfo();
-        this.professor = new ProfessorDto(course.getProfessor());
+        if (course.getProfessor() != null)
+            this.professor = new ProfessorDto(course.getProfessor());
     }
 
     public CourseDto() {

@@ -13,8 +13,8 @@ import org.springframework.stereotype.Repository;
 @Lazy
 public interface TokenRepository extends JpaRepository<Token, Long> {
 
-    Token findByUsernameAndEndDateIsNull(String username);
+    Token findByEmailAndEndDateIsNull(String username);
 
-    Token findByUsernameAndTokenAndEndDateIsNull(String username, String token);
+    Token findByEmailAndTokenAndEndDateIsNull(String username, String token);
 
 }

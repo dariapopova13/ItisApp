@@ -12,7 +12,7 @@ import java.util.List;
 
 public interface UserService extends BaseService<UserDto> {
 
-    public String getCurrentUserUsername();
+    public String getCurrentUserEmail();
 
     public User getCurrentUser();
 
@@ -24,7 +24,7 @@ public interface UserService extends BaseService<UserDto> {
 
     boolean checkCourse(Course course);
 
-    public List<UserDto> getAll();
+    public List<UserDto> getAll(int page);
 
     UserDto saveNewUser(UserDto userDto);
 }

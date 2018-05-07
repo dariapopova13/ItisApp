@@ -13,18 +13,11 @@ public class NewsDto extends AbstractDto {
     private String newsText;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Date deadline;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-    private Date deleteDate;
     private String title;
     private Integer year;
     private CourseDto course;
 
-    public Date getDeleteDate() {
-        return deleteDate;
-    }
-
-    public void setDeleteDate(Date deleteDate) {
-        this.deleteDate = deleteDate;
+    public NewsDto() {
     }
 
     public NewsDto(News news) {
@@ -36,9 +29,6 @@ public class NewsDto extends AbstractDto {
             this.course = new CourseDto(news.getCourse());
         }
         this.year = news.getYear();
-        if (news.getDeleteDate() != null) {
-            this.deleteDate = news.getDeleteDate();
-        }
     }
 
     public Integer getYear() {

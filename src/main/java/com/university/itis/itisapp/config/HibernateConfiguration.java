@@ -87,18 +87,18 @@ public class HibernateConfiguration {
     private Properties hibernateProperties() {
         Properties properties = new Properties();
         properties.put(AvailableSettings.DIALECT, PostgreSQL95Dialect.class);
-        properties.put(AvailableSettings.SHOW_SQL, false);
-        properties.put(AvailableSettings.DEFAULT_SCHEMA, "itis_app");
+        properties.put(AvailableSettings.SHOW_SQL, true);
         properties.put(AvailableSettings.HBM2DLL_CREATE_SCHEMAS, true);
-        properties.put(AvailableSettings.HBM2DDL_AUTO, "create");
-//        properties.put(AvailableSettings.HBM2DDL_AUTO, "update");
+        properties.put(AvailableSettings.DEFAULT_SCHEMA, "itis_app");
+//        properties.put(AvailableSettings.HBM2DDL_AUTO, "create");
+        properties.put(AvailableSettings.HBM2DDL_AUTO, "update");
         properties.put(AvailableSettings.FORMAT_SQL, true);
         properties.put(AvailableSettings.ENABLE_LAZY_LOAD_NO_TRANS, true);
 //
         properties.put("hibernate.search.default.directory_provider", "filesystem");
 
-        properties.put("hibernate.search.default.indexBase", getClass().getProtectionDomain().getCodeSource().getLocation().getPath()
-                + "/lucene");
+        properties.put("hibernate.search.default.indexBase",
+                getClass().getProtectionDomain().getCodeSource().getLocation().getPath() + "/lucene");
 
         return properties;
     }

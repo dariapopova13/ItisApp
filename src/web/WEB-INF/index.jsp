@@ -1,5 +1,4 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -9,7 +8,7 @@
     <link rel="shortcut icon" href=/favicon.ico>
     <title>vue-frontend</title>
     <link rel=preload as=script href=/js/vendor.c7fb8bee.js>
-    <link rel=preload as=script href=/js/app.eebb52b3.js>
+    <link rel=preload as=script href=/js/app.d2bb1122.js>
     <link rel=preload as=style href=/css/app.f84c4742.css>
     <link href=/css/app.f84c4742.css rel=stylesheet>
 </head>
@@ -52,6 +51,6 @@
 })([]);
 //# sourceMappingURL=/js/manifest.bb41d6d8.js.map</script>
 <script type=text/javascript src=/js/vendor.c7fb8bee.js></script>
-<script type=text/javascript src=/js/app.eebb52b3.js></script>
+<script type=text/javascript src=/js/app.d2bb1122.js></script>
 </body>
 </html>

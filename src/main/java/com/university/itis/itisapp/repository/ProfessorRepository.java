@@ -9,5 +9,5 @@ public interface ProfessorRepository extends JpaRepository<Professor, Long> {
 
     Professor findByUserId(Long id);
 
-    Professor findByUserUsername(String username);
+    Professor findByUserEmail(String email);
 }

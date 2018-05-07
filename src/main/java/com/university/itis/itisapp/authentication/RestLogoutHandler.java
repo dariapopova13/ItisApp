@@ -28,7 +28,7 @@ public class RestLogoutHandler extends SecurityContextLogoutHandler {
     @Override
     public void logout(HttpServletRequest request, HttpServletResponse response, Authentication authentication) {
         String username = (String) tokenAuthenticationService.getAuthentication((HttpServletRequest) request).getPrincipal();
-        Token token = tokenRepository.findByUsernameAndEndDateIsNull(username);
+        Token token = tokenRepository.findByEmailAndEndDateIsNull(username);
         if (token != null) {
             token.setEndDate(new Date());
             tokenRepository.save(token);

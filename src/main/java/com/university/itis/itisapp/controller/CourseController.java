@@ -16,7 +16,7 @@ public class CourseController {
     private CourseService courseService;
 
     @PostMapping(value = "/api/add")
-    public CourseDto addNewCourse(CourseDto courseDto) {
+    public CourseDto addNewCourse(@RequestBody CourseDto courseDto) {
         return courseService.saveOrUdpate(courseDto);
     }
 

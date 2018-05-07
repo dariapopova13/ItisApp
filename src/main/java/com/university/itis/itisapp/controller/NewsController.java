@@ -39,10 +39,6 @@ public class NewsController {
         return newsService.saveOrUdpate(newsDto);
     }
 
-    @PutMapping("api/restore/{id}")
-    public void restore(@PathVariable Long id){
-        newsService.restore(id);
-    }
 
     @PreAuthorize("isAuthenticated()")
     @DeleteMapping(value = "/api/delete/{id}")
@@ -55,12 +51,6 @@ public class NewsController {
     @PreAuthorize("isAuthenticated()")
     public List<NewsDto> getNews(@PathVariable int page) {
         return newsService.getNews(page);
-    }
-
-    @GetMapping(value = "/api/deleted/{page}")
-    @PreAuthorize("isAuthenticated()")
-    public List<NewsDto> getDeletedNews(@PathVariable int page) {
-        return newsService.getDeletedNews(page);
     }
 
     @PostMapping(value = "/api/filter")

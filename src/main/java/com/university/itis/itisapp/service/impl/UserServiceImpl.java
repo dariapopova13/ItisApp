@@ -9,9 +9,15 @@ import com.university.itis.itisapp.model.enums.RoleNames;
 import com.university.itis.itisapp.repository.ProfessorRepository;
 import com.university.itis.itisapp.repository.TokenRepository;
 import com.university.itis.itisapp.repository.UserRepository;
+import com.university.itis.itisapp.service.MailService;
 import com.university.itis.itisapp.service.UserService;
 import com.university.itis.itisapp.utils.DtoUtils;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -21,11 +27,13 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
+@PropertySource("classpath:application.properties")
 @Service
 public class UserServiceImpl implements UserService, UserDetailsService {
 
@@ -39,6 +47,12 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     private DtoUtils dtoUtils;
     @Autowired
     private ProfessorRepository professorRepository;
+    @Autowired
+    private MailService mailService;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+    @Value("${default_page_count}")
+    private int pageCount;
 
     @Override
     public UserDto get(Long id) {
@@ -49,19 +63,35 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Override
     public UserDto saveOrUdpate(UserDto dto) {
         User user = dtoUtils.toEntity(dto);
-        user = userRepository.save(user);
+        User current = getCurrentUser();
+        if (current.getId().equals(user.getId()))
+            user = userRepository.save(user);
         return user == null ? null : new UserDto(user);
     }
 
     @Override
     public UserDto saveNewUser(UserDto userDto) {
-        return null;
+        User user = dtoUtils.toEntity(userDto);
+        String password = RandomStringUtils.random(15, true, true);
+        user.setPassword(passwordEncoder.encode(password));
+        if (user.getRole().getSimpleName().equalsIgnoreCase(RoleNames.PROFESSOR.name())) {
+            Professor professor = new Professor();
+            professor.setUser(user);
+            professorRepository.save(professor);
+            user = userRepository.findOne(professor.getUser().getId());
+        } else {
+            user = userRepository.save(user);
+        }
+        if (user != null) {
+            mailService.sendConfirmationMail(user, password);
+        }
+        return new UserDto(user);
     }
 
     @Override
-    public List<UserDto> getAll() {
-        return userRepository.findAll()
-                .stream().map(UserDto::new).collect(Collectors.toList());
+    public List<UserDto> getAll(int page) {
+        Pageable request = new PageRequest(page, pageCount);
+        return userRepository.findAll(request).map(UserDto::new).getContent();
     }
 
     @Override
@@ -70,18 +100,19 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userRepository.findByUsername(username);
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        User user = userRepository.findByEmail(email);
         if (user == null)
-            throw new UsernameNotFoundException(String.format("Username '%s' not found", username));
+            throw new UsernameNotFoundException(String.format("Username '%s' not found", email));
         Set<GrantedAuthority> authorities = new HashSet<>();
         authorities.add(new SimpleGrantedAuthority(user.getRole().getSimpleName()));
         return new org.springframework.security.core.userdetails.User(
-                user.getUsername(), user.getPassword(), authorities);
+                user.getEmail(), user.getPassword(), authorities);
     }
 
+
     @Override
-    public String getCurrentUserUsername() {
+    public String getCurrentUserEmail() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (!(authentication instanceof AnonymousAuthenticationToken)) {
             return authentication.getName();
@@ -91,14 +122,15 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Override
     public User getCurrentUser() {
-        String username = getCurrentUserUsername();
+        String username = getCurrentUserEmail();
         if (username == null) return null;
-        return userRepository.findByUsername(username);
+        return userRepository.findByEmail(username);
     }
 
     @Override
     public Boolean ping(Token token) {
-        return tokenRepository.findByUsernameAndTokenAndEndDateIsNull(token.getUsername(), token.getToken()) != null;
+        return tokenRepository.findByEmailAndTokenAndEndDateIsNull(
+                token.getEmail(), token.getToken()) != null;
     }
 
     @Override
@@ -107,7 +139,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
             return null;
         tokenService.addAuthentication(userFormDto);
         Token token = new TokenBuilder()
-                .setUsername(userFormDto.getUsername())
+                .setEmail(userFormDto.getEmail())
                 .setStartDate(new Date())
                 .setToken(userFormDto.getToken())
                 .createToken();
@@ -124,7 +156,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         if (current != null) {
             if (news.getCourse() != null && current.getRole()
                     .getSimpleName().equals(RoleNames.PROFESSOR.name())) {
-                Professor professor = professorRepository.findByUserUsername(current.getUsername());
+                Professor professor = professorRepository.findByUserEmail(current.getEmail());
                 if (professor != null) {
                     return professor.getCourses()
                             .stream().map(AbstractEntity::getId)
@@ -146,7 +178,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         if (current != null) {
             if (course != null && current.getRole()
                     .getSimpleName().equals(RoleNames.PROFESSOR.name())) {
-                Professor professor = professorRepository.findByUserUsername(current.getUsername());
+                Professor professor = professorRepository.findByUserEmail(current.getEmail());
                 if (professor != null) {
                     return professor.getCourses()
                             .stream().map(AbstractEntity::getId)

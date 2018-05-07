@@ -20,7 +20,7 @@ public class Professor extends AbstractEntity {
 
     @OneToMany(mappedBy = "professor", fetch = FetchType.EAGER)
     private Set<Course> courses = new HashSet<>();
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @IndexedEmbedded
     private User user;
     @Column(name = "info")

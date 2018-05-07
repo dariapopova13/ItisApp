@@ -27,16 +27,6 @@ public class Course extends AbstractEntity {
     @Field(index = Index.YES, store = Store.YES, analyze = Analyze.YES,
             analyzer = @Analyzer(definition = "customanalyzer"))
     private String info;
-    @Column(name = "delete_date")
-    private Date deleteDate;
-
-    public Date getDeleteDate() {
-        return deleteDate;
-    }
-
-    public void setDeleteDate(Date deleteDate) {
-        this.deleteDate = deleteDate;
-    }
 
     public String getInfo() {
         return info;

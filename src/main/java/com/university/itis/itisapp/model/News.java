@@ -42,16 +42,7 @@ public class News extends AbstractEntity {
     private Course course;
     @Column(name = "year")
     private Integer year;
-    @Column(name = "delete_date")
-    private Date deleteDate;
 
-    public Date getDeleteDate() {
-        return deleteDate;
-    }
-
-    public void setDeleteDate(Date deleteDate) {
-        this.deleteDate = deleteDate;
-    }
 
     public Integer getYear() {
         return year;

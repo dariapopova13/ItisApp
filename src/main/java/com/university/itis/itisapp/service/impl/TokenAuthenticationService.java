@@ -33,7 +33,7 @@ public class TokenAuthenticationService {
 
     public void addAuthentication(UserFormDto userFormDto) {
         String jwt = Jwts.builder()
-                .setSubject(userFormDto.getUsername())
+                .setSubject(userFormDto.getEmail())
                 .setExpiration(new Date(System.currentTimeMillis() + EXPIRATIONTIME))
                 .signWith(SignatureAlgorithm.HS512, SECRET)
                 .compact();
@@ -58,7 +58,7 @@ public class TokenAuthenticationService {
                     .getBody()
                     .getSubject();
 
-            return (user != null && tokenRepository.findByUsernameAndTokenAndEndDateIsNull(user, token) != null)
+            return (user != null && tokenRepository.findByEmailAndTokenAndEndDateIsNull(user, token) != null)
                     ? new UsernamePasswordAuthenticationToken(user, null, emptyList()) : null;
         }
         return null;

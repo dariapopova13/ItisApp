@@ -35,11 +35,11 @@ public class TimetableDto {
         this.flow = input.getFlow();
     }
 
-    private boolean checkNull(String field) {
-        return field == null;
+    public TimetableDto() {
     }
 
-    public TimetableDto() {
+    private boolean checkNull(String field) {
+        return field == null;
     }
 
     public Boolean getEven() {

@@ -22,9 +22,9 @@ public class RestUserNameAuthenticationFilter extends UsernamePasswordAuthentica
 
     @Autowired
     private ObjectMapper objectMapper;
-    public static final String SPRING_SECURITY_FORM_USERNAME_KEY = "username";
+    public static final String SPRING_SECURITY_FORM_USERNAME_KEY = "email";
     public static final String SPRING_SECURITY_FORM_PASSWORD_KEY = "password";
-    private String usernameParameter = "username";
+    private String emailParameter = "email";
     private String passwordParameter = "password";
     private boolean postOnly = true;
 
@@ -39,13 +39,14 @@ public class RestUserNameAuthenticationFilter extends UsernamePasswordAuthentica
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            if (userFormDto == null || userFormDto.getPassword() == null || userFormDto.getUsername() == null)
+            if (userFormDto == null || userFormDto.getPassword() == null || userFormDto.getEmail() == null)
                 throw new AuthenticationCredentialsNotFoundException("Bad credentials");
-            String username = userFormDto.getUsername();
+            String email = userFormDto.getEmail();
             String password = userFormDto.getPassword();
 
-            username = username.trim();
-            UsernamePasswordAuthenticationToken authRequest = new UsernamePasswordAuthenticationToken(username, password);
+            email = email.trim();
+            UsernamePasswordAuthenticationToken authRequest
+                    = new UsernamePasswordAuthenticationToken(email, password);
             this.setDetails(request, authRequest);
             return this.getAuthenticationManager().authenticate(authRequest);
         }
