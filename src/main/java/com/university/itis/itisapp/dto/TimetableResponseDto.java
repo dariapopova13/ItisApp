@@ -3,6 +3,7 @@ package com.university.itis.itisapp.dto;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.university.itis.itisapp.timetable.google.model.ParsedSubject;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -11,17 +12,18 @@ import java.util.TreeMap;
 public class TimetableResponseDto {
 
     private int day;
-    private Map<String, TimetableDto> timetableMap;
+    private List<TimetableDto> timetables;
 
     public TimetableResponseDto() {
     }
 
     public TimetableResponseDto(List<ParsedSubject> input, int day) {
-        timetableMap = new TreeMap<>();
         this.day = day;
+        timetables = new ArrayList<>(input.size());
         for (ParsedSubject subject : input) {
-            timetableMap.put(subject.getTime(), new TimetableDto(subject));
+            timetables.add(new TimetableDto(subject));
         }
+        timetables.sort((timetableDto, t1) -> timetableDto.getTime().compareTo(t1.getTime()));
     }
 
     public int getDay() {
@@ -32,11 +34,11 @@ public class TimetableResponseDto {
         this.day = day;
     }
 
-    public Map<String, TimetableDto> getTimetableMap() {
-        return timetableMap;
+    public List<TimetableDto> getTimetables() {
+        return timetables;
     }
 
-    public void setTimetableMap(Map<String, TimetableDto> timetableMap) {
-        this.timetableMap = timetableMap;
+    public void setTimetables(List<TimetableDto> timetables) {
+        this.timetables = timetables;
     }
 }

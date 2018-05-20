@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -21,12 +20,12 @@ public class TimetableServiceImpl implements TimetableService {
     private GoogleTimetableService googleTimetableService;
 
     @Override
-    public Map<Integer, Map<String, TimetableDto>> getTimetableRespone(String group) {
+    public Map<Integer, List<TimetableDto>> getTimetableRespone(String group) {
 
         List<TimetableResponseDto> responses = googleTimetableService.getTimetableForGroup(group);
 
         return responses == null ? null : responses.stream()
-                .collect(Collectors.toMap(o -> o.getDay(), o -> o.getTimetableMap()));
+                .collect(Collectors.toMap(o -> o.getDay(), o -> o.getTimetables()));
     }
 
 }

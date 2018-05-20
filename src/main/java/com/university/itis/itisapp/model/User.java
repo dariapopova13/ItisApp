@@ -13,7 +13,7 @@ import javax.persistence.Table;
 @DynamicInsert
 @DynamicUpdate
 @Entity
-@Table(name = "users", schema = "itis_app")
+@Table(name = "users")
 @Indexed
 public class User extends AbstractEntity {
 

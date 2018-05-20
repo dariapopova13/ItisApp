@@ -7,17 +7,16 @@ import org.apache.lucene.analysis.ngram.EdgeNGramFilterFactory;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.search.annotations.*;
+import org.hibernate.search.annotations.Index;
+import org.hibernate.search.annotations.Parameter;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.Date;
 
 @DynamicInsert
 @DynamicUpdate
 @Entity
-@Table(name = "news", schema = "itis_app")
+@Table(name = "news")
 @Indexed
 @AnalyzerDef(name = "customanalyzer", tokenizer = @TokenizerDef(factory = WhitespaceTokenizerFactory.class), filters = {
         @TokenFilterDef(factory = LowerCaseFilterFactory.class),
@@ -28,11 +27,13 @@ import java.util.Date;
 public class News extends AbstractEntity {
 
     @Column(name = "news_text")
+    @Lob
     @Field(index = Index.YES, store = Store.YES, analyze = Analyze.YES,
             analyzer = @Analyzer(definition = "customanalyzer"))
     private String newsText;
     @Column(name = "deadline")
     private Date deadline;
+    @Lob
     @Column(name = "news_title")
     @Field(index = Index.YES, store = Store.YES, analyze = Analyze.YES,
             analyzer = @Analyzer(definition = "customanalyzer"))

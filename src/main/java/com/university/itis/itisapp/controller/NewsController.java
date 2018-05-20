@@ -9,7 +9,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping(value = "/news")
@@ -21,9 +20,9 @@ public class NewsController {
 
 
     @GetMapping(value = "/month/{group}")
-    public Map<String, SingleDayResponse> getWeekNews(@RequestParam(name = "course", required = false) List<Long> courseIds,
-                                                      @RequestParam(name = "date", required = false) String date,
-                                                      @PathVariable String group) {
+    public List<SingleDayResponse> getWeekNews(@RequestParam(name = "course", required = false) List<Long> courseIds,
+                                               @RequestParam(name = "date", required = false) String date,
+                                               @PathVariable String group) {
         return newsService.getMonthNews(date, group, courseIds);
     }
 

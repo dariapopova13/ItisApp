@@ -13,7 +13,7 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @GetMapping(value = "/users/api{page}")
+    @GetMapping(value = "/users/api/{page}")
     public List<UserDto> getUsers(@PathVariable int page) {
         return userService.getAll(page);
     }
@@ -26,6 +26,11 @@ public class UserController {
     @PostMapping(value = "/users/api/add")
     public UserDto save(@RequestBody UserDto userDto) {
         return userService.saveOrUdpate(userDto);
+    }
+
+    @PostMapping(value = "/users/api/me/edit")
+    public UserDto editMe(@RequestBody UserDto userDto){
+        return userService.editMe(userDto);
     }
 
     @PostMapping(value = "/users/api/add/new")

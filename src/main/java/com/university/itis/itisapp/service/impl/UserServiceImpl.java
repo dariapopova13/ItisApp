@@ -64,6 +64,15 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     public UserDto saveOrUdpate(UserDto dto) {
         User user = dtoUtils.toEntity(dto);
         User current = getCurrentUser();
+        if (current.getRole().getSimpleName().equalsIgnoreCase(RoleNames.ADMIN.name()))
+            user = userRepository.save(user);
+        return user == null ? null : new UserDto(user);
+    }
+
+    @Override
+    public UserDto editMe(UserDto dto) {
+        User user = dtoUtils.toEntity(dto);
+        User current = getCurrentUser();
         if (current.getId().equals(user.getId()))
             user = userRepository.save(user);
         return user == null ? null : new UserDto(user);

@@ -86,9 +86,9 @@ public class NewsServiceImpl implements NewsService {
 
 
     @Override
-    public Map<String, SingleDayResponse> getMonthNews(String date, String group, List<Long> courseIds) {
+    public List<SingleDayResponse> getMonthNews(String date, String group, List<Long> courseIds) {
         int year = appUtils.getCourse(group);
-        Map<Integer, Map<String, TimetableDto>> timetable = timetableService.getTimetableRespone(group);
+        Map<Integer, List<TimetableDto>> timetable = timetableService.getTimetableRespone(group);
 
         Pair<Date, Date> dates = dateUtils.getDateMonthRange(date);
         List<News> newsList = newsRepository.getNews(dates.getFirst(), dates.getSecond(), courseIds, year);
@@ -103,8 +103,8 @@ public class NewsServiceImpl implements NewsService {
             }
         }
 
-        Map<String, SingleDayResponse> responseMap = new TreeMap<>();
-        SingleDayResponse singleDayResponse;
+        List<SingleDayResponse> responseList = new ArrayList<>();
+        SingleDayResponse singleDayResponse ;
         for (LocalDate localDate = dateUtils.toLocalDate(dates.getFirst());
              localDate.isBefore(dateUtils.toLocalDate(dates.getSecond()).plusDays(1));
              localDate = localDate.plusDays(1)) {
@@ -121,10 +121,10 @@ public class NewsServiceImpl implements NewsService {
             if (news != null) {
                 singleDayResponse.setNews(news.stream().map(NewsDto::new).collect(Collectors.toList()));
             }
-            responseMap.put(dateUtils.getFormatedDate(currentDate), singleDayResponse);
+            responseList.add(singleDayResponse);
         }
 
-        return responseMap;
+        return responseList;
     }
 
     @Override

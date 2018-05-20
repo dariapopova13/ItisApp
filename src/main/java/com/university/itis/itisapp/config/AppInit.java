@@ -15,8 +15,6 @@ public class AppInit extends AbstractAnnotationConfigDispatcherServletInitialize
 
     @Override
     protected Class<?>[] getRootConfigClasses() {
-        System.err.println(System.getProperty("user.home"));
-        System.out.println(System.getProperty("user.home"));
         return new Class<?>[]{
                 RootConfig.class
         };

@@ -71,7 +71,6 @@ public class DtoUtils {
             user.setPassword(passwordEncoder.encode(dto.getPassword()));
         user.setRole(roleRepository.findByName(RoleNames.getRoleName(dto.getRole())));
         return user;
-
     }
 
 

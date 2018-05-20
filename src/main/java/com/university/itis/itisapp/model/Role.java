@@ -10,7 +10,7 @@ import javax.persistence.*;
 @DynamicInsert
 @DynamicUpdate
 @Entity
-@Table(name = "roles", schema = "itis_app")
+@Table(name = "roles")
 public class Role extends AbstractEntity {
 
     @Column(name = "name")

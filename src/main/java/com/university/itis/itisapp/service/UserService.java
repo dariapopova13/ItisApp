@@ -26,5 +26,7 @@ public interface UserService extends BaseService<UserDto> {
 
     public List<UserDto> getAll(int page);
 
+    UserDto editMe(UserDto dto);
+
     UserDto saveNewUser(UserDto userDto);
 }

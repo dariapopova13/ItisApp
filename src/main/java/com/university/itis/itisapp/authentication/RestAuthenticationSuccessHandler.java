@@ -5,6 +5,8 @@ import com.university.itis.itisapp.dto.UserFormDto;
 import com.university.itis.itisapp.model.Token;
 import com.university.itis.itisapp.model.builder.TokenBuilder;
 import com.university.itis.itisapp.repository.TokenRepository;
+import com.university.itis.itisapp.repository.UserRepository;
+import com.university.itis.itisapp.service.UserService;
 import com.university.itis.itisapp.service.impl.TokenAuthenticationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -32,6 +34,8 @@ public class RestAuthenticationSuccessHandler implements AuthenticationSuccessHa
     private TokenAuthenticationService tokenAuthenticationService;
     @Autowired
     private TokenRepository tokenRepository;
+    @Autowired
+    private UserRepository userRepository;
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
@@ -45,6 +49,7 @@ public class RestAuthenticationSuccessHandler implements AuthenticationSuccessHa
             userFormDto.setEmail(((UserDetails) authentication.getPrincipal()).getUsername());
         else userFormDto.setEmail((String) authentication.getPrincipal());
         Token token = tokenRepository.findByEmailAndEndDateIsNull(userFormDto.getEmail());
+        userFormDto.setId(userRepository.findByEmail(userFormDto.getEmail()).getId());
         if (token == null) {
             tokenAuthenticationService.addAuthentication(userFormDto);
             token = new TokenBuilder()

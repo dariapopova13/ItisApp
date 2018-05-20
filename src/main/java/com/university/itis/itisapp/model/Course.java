@@ -12,7 +12,7 @@ import java.util.Date;
 @DynamicInsert
 @DynamicUpdate
 @Entity
-@Table(name = "course", schema = "itis_app")
+@Table(name = "course")
 @Indexed
 public class Course extends AbstractEntity {
 
@@ -24,6 +24,7 @@ public class Course extends AbstractEntity {
     @IndexedEmbedded
     private Professor professor;
     @Column(name = "info")
+    @Lob
     @Field(index = Index.YES, store = Store.YES, analyze = Analyze.YES,
             analyzer = @Analyzer(definition = "customanalyzer"))
     private String info;

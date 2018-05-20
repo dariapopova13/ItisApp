@@ -14,7 +14,7 @@ import java.util.Set;
 @DynamicInsert
 @DynamicUpdate
 @Entity
-@Table(name = "professor", schema = "itis_app")
+@Table(name = "professor")
 @Indexed
 public class Professor extends AbstractEntity {
 

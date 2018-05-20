@@ -6,9 +6,9 @@
     <meta http-equiv=X-UA-Compatible content="IE=edge">
     <meta name=viewport content="width=device-width,initial-scale=1">
     <link rel="shortcut icon" href=/favicon.ico>
-    <title>vue-frontend</title>
+    <title>Itis App</title>
     <link rel=preload as=script href=/js/vendor.c7fb8bee.js>
-    <link rel=preload as=script href=/js/app.d2bb1122.js>
+    <link rel=preload as=script href=/js/app.f9ec03f6.js>
     <link rel=preload as=style href=/css/app.f84c4742.css>
     <link href=/css/app.f84c4742.css rel=stylesheet>
 </head>
@@ -51,6 +51,6 @@
 })([]);
 //# sourceMappingURL=/js/manifest.bb41d6d8.js.map</script>
 <script type=text/javascript src=/js/vendor.c7fb8bee.js></script>
-<script type=text/javascript src=/js/app.d2bb1122.js></script>
+<script type=text/javascript src=/js/app.f9ec03f6.js></script>
 </body>
 </html>

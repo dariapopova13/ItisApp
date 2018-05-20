@@ -9,7 +9,7 @@ import java.util.Map;
 public class SingleDayResponse {
 
     private String date;
-    private Map<String, TimetableDto> timetables;
+    private List<TimetableDto> timetables;
     private List<NewsDto> news;
     private int weekday;
 
@@ -32,11 +32,11 @@ public class SingleDayResponse {
         this.date = date;
     }
 
-    public Map<String, TimetableDto> getTimetables() {
+    public List<TimetableDto> getTimetables() {
         return timetables;
     }
 
-    public void setTimetables(Map<String, TimetableDto> timetables) {
+    public void setTimetables(List<TimetableDto> timetables) {
         this.timetables = timetables;
     }
 
