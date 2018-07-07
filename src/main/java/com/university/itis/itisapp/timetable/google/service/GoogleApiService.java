@@ -88,23 +88,6 @@ public class GoogleApiService {
             String time = googleUtils.getTime(i);
             List<Object> currentSubjects = subjectsResponse.get(i);
 
-//            if (currentSubjects.size() == 0) continue;
-//            if (currentSubjects.size() == 1) {
-//                sortedSubjects.add(new TmpObjectBuilder()
-//                        .setContent(currentSubjects.get(0).toString())
-//                        .setTime(time)
-//                        .setCourse(course)
-//                        .createTmpObject());
-//            } else {
-//                Object current = currentSubjects.get(groupNum - 1);
-//                sortedSubjects.add(new TmpObjectBuilder()
-//                        .setContent(current.toString())
-//                        .setTime(time)
-//                        .setCourse(course)
-//                        .setGroup(group)
-//                        .createTmpObject());
-//            }
-
             int size = currentSubjects.size();
             for (int j = 0; j < size; j++) {
                 Object current = currentSubjects.get(j);

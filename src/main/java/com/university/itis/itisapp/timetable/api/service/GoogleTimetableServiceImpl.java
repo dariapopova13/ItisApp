@@ -1,5 +1,6 @@
 package com.university.itis.itisapp.timetable.api.service;
 
+import com.university.itis.itisapp.dto.TimetableDto;
 import com.university.itis.itisapp.dto.TimetableResponseDto;
 import com.university.itis.itisapp.timetable.google.model.ParsedSubject;
 import com.university.itis.itisapp.timetable.google.service.GoogleApiService;
@@ -27,12 +28,26 @@ public class GoogleTimetableServiceImpl implements GoogleTimetableService {
         List<TimetableResponseDto> responses = new ArrayList<>();
         for (int i = 1; i <= 6; i++) {
             List<ParsedSubject> tmp = getResult(group, i);
-            if (tmp != null){
+            if (tmp != null) {
                 responses.add(new TimetableResponseDto(tmp, i));
             }
         }
 
         return responses;
+    }
+
+    @Override
+    public List<TimetableDto> getSubjects(String group) {
+        List<TimetableResponseDto> responseDtos = getTimetableForGroup(group);
+        List<TimetableDto> subjects = new ArrayList<>();
+        for (TimetableResponseDto responseDto : responseDtos) {
+            for (TimetableDto timetableDto : responseDto.getTimetables()) {
+                if (!subjects.contains(timetableDto)){
+                    subjects.add(timetableDto);
+                }
+            }
+        }
+        return subjects;
     }
 
     @Override
@@ -52,4 +67,6 @@ public class GoogleTimetableServiceImpl implements GoogleTimetableService {
             return null;
         }
     }
+
+
 }

@@ -40,6 +40,13 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
+    public List<CourseDto> getAllById(List<Long> ids) {
+        if (ids == null) return null;
+        return courseRepository.findByIdIn(ids)
+                .stream().map(CourseDto::new).collect(Collectors.toList());
+    }
+
+    @Override
     public List<CourseDto> getAll() {
         User user = userService.getCurrentUser();
         List<Course> courses;

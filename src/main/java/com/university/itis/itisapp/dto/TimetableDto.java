@@ -3,6 +3,8 @@ package com.university.itis.itisapp.dto;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.university.itis.itisapp.timetable.google.model.ParsedSubject;
 
+import java.util.Objects;
+
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class TimetableDto {
 
@@ -15,6 +17,22 @@ public class TimetableDto {
     private int flow;
     private Boolean isEven;
     private String notation;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        TimetableDto that = (TimetableDto) o;
+        return Objects.equals(subjectType, that.subjectType) &&
+                Objects.equals(subject, that.subject) &&
+                Objects.equals(professorName, that.professorName);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(subjectType, subject, professorName);
+    }
 
     public TimetableDto(ParsedSubject input) {
         if (!checkNull(input.getSubjectName()))

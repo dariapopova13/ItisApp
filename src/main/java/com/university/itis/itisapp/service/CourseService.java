@@ -9,4 +9,5 @@ public interface CourseService extends BaseService<CourseDto> {
 
     List<CourseDto> getAll();
 
+    List<CourseDto> getAllById(List<Long> ids);
 }
